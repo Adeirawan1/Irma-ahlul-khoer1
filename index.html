@@ -276,15 +276,13 @@
 
         // CONFIG TELEGRAM BOT NOTIFIKASI
         const TELEGRAM_BOT_TOKEN = "8922142031:AAHz4w7FhWiLwvNsOArRfTVqSxKGw947DJg"; 
-        const TELEGRAM_CHAT_ID = "ID_TELEGRAM_ANDA"; // <-- GANTI DENGAN ANGKA ID TELEGRAM ANDA (Contoh: "123456789")
+        const TELEGRAM_CHAT_ID = "7751334348"; 
 
         let waAktif = '';
         let namaAktif = '';
 
         // FUNGSI KIRIM NOTIFIKASI TELEGRAM
         function kirimNotifTelegram(data) {
-            if (TELEGRAM_CHAT_ID === "ID_TELEGRAM_ANDA") return;
-
             const pesan = `🔔 *PENDAFTAR BARU IRMA AHLUL KHOER*\n\n👤 *Nama:* ${data.nama}\n🔢 *Usia:* ${data.usia} Tahun\n📱 *No. WA:* ${data.whatsapp}\n📍 *Alamat:* ${data.alamat}\n\nSilakan buka halaman Admin untuk melakukan ACC!`;
 
             fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -295,7 +293,7 @@
                     text: pesan,
                     parse_mode: 'Markdown'
                 })
-            }).catch(err => console.log('Gagal kirim notif:', err));
+            }).then(res => res.json()).then(res => console.log('Notif Telegram terkirim:', res)).catch(err => console.log('Gagal kirim notif:', err));
         }
 
         // 1. DENGARKAN DATA PENGURUS REALTIME

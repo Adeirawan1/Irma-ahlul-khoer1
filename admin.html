@@ -24,96 +24,136 @@
         .status-badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
         .status-diterima { background: #065f46; color: #34d399; }
         .status-pending { background: #78350f; color: #fbbf24; }
+        .pesan-error { color: #f87171; font-size: 13px; font-weight: bold; margin-top: 10px; text-align: center; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1 style="color: #38bdf8; font-size: 22px; margin-bottom: 20px; text-align: center;">PANEL KONTROL ADMIN IRMA</h1>
 
-        <!-- 1. KELOLA PENGURUS -->
-        <div class="card">
-            <h2>👥 KELOLA DATA PENGURUS</h2>
-            <form onsubmit="window.simpanPengurus(event)">
-                <div class="grid-2">
-                    <div>
-                        <label>Nama Pembina / Penasihat</label>
-                        <input type="text" id="admPembina" placeholder="Nama Pembina" required>
-                    </div>
-                    <div>
-                        <label>Nama Ketua IRMA</label>
-                        <input type="text" id="admKetua" placeholder="Nama Ketua" required>
-                    </div>
-                    <div>
-                        <label>Nama Wakil Ketua</label>
-                        <input type="text" id="admWakil" placeholder="Nama Wakil Ketua">
-                    </div>
-                    <div>
-                        <label>Nama Sekretaris</label>
-                        <input type="text" id="admSekretaris" placeholder="Nama Sekretaris">
-                    </div>
-                    <div>
-                        <label>Nama Bendahara</label>
-                        <input type="text" id="admBendahara" placeholder="Nama Bendahara">
-                    </div>
-                    <div>
-                        <label>Koordinator Humas / Acara</label>
-                        <input type="text" id="admHumas" placeholder="Nama Koordinator">
-                    </div>
-                </div>
-                <button type="submit" class="btn-green">💾 Simpan Data Pengurus</button>
+        <!-- FORM LOGIN ADMIN -->
+        <div id="secLoginAdmin" class="card" style="max-width: 400px; margin: 50px auto;">
+            <h2 style="text-align: center;">🔒 LOGIN ADMIN</h2>
+            <form onsubmit="window.prosesLoginAdmin(event)">
+                <label>Password Admin</label>
+                <input type="password" id="inputPassAdmin" placeholder="Masukkan Password Admin" required>
+                <button type="submit" class="btn-blue">Masuk Panel Admin</button>
             </form>
+            <div id="pesanLoginAdmin" class="pesan-error"></div>
         </div>
 
-        <!-- 2. KELOLA SALDO & ACARA -->
-        <div class="card">
-            <h2>💰 SALDO KAS & ACARA</h2>
-            <form onsubmit="window.simpanKasAcara(event)">
-                <div class="grid-2">
-                    <div>
-                        <label>Total Saldo Kas (Rp)</label>
-                        <input type="text" id="admSaldo" placeholder="Contoh: 1500000" required>
-                    </div>
-                    <div>
-                        <label>Total Pengeluaran (Rp)</label>
-                        <input type="text" id="admPengeluaran" placeholder="Contoh: 200000">
-                    </div>
-                </div>
-                <label>Keterangan / Catatan Saldo Kas</label>
-                <input type="text" id="admKetSaldo" placeholder="Contoh: Sisa kas per bulan ini setelah pembelian alat PHBI">
-
-                <label style="margin-top: 16px;">Judul Acara Terdekat</label>
-                <input type="text" id="admJudulAcara" placeholder="Judul Kegiatan">
-                <label>Jadwal / Keterangan Acara</label>
-                <input type="text" id="admJadwalAcara" placeholder="Waktu & Tempat">
-                <button type="submit" class="btn-blue">💾 Simpan Kas & Acara</button>
-            </form>
-        </div>
-
-        <!-- 3. KELOLA ANGGOTA / PENDAFTAR -->
-        <div class="card">
-            <h2>📋 DAFTAR ANGGOTA & PENDAFTAR</h2>
-            <div style="overflow-x: auto;">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Nama</th>
-                            <th>No. WA</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabelPendaftar">
-                        <tr><td colspan="4" style="text-align:center;">Memuat data...</td></tr>
-                    </tbody>
-                </table>
+        <!-- PANEL DASHBOARD ADMIN -->
+        <div id="secDashboardAdmin" style="display: none;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h1 style="color: #38bdf8; font-size: 20px;">PANEL KONTROL ADMIN IRMA</h1>
+                <button onclick="window.logoutAdmin()" class="btn-danger">Keluar Admin</button>
             </div>
+
+            <!-- KELOLA PASSWORD ADMIN -->
+            <div class="card">
+                <h2>🔐 UBAH PASSWORD ADMIN</h2>
+                <form onsubmit="window.ubahPasswordAdmin(event)">
+                    <div class="grid-2">
+                        <div>
+                            <label>Password Baru</label>
+                            <input type="password" id="passBaru1" placeholder="Masukkan Password Baru" required>
+                        </div>
+                        <div>
+                            <label>Konfirmasi Password Baru</label>
+                            <input type="password" id="passBaru2" placeholder="Ulangi Password Baru" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-blue" style="background: #eab308; color: #0f172a;">🔑 Simpan Password Baru</button>
+                </form>
+            </div>
+
+            <!-- 1. KELOLA PENGURUS -->
+            <div class="card">
+                <h2>👥 KELOLA DATA PENGURUS</h2>
+                <form onsubmit="window.simpanPengurus(event)">
+                    <div class="grid-2">
+                        <div>
+                            <label>Nama Pembina / Penasihat</label>
+                            <input type="text" id="admPembina" placeholder="Nama Pembina" required>
+                        </div>
+                        <div>
+                            <label>Nama Ketua IRMA</label>
+                            <input type="text" id="admKetua" placeholder="Nama Ketua" required>
+                        </div>
+                        <div>
+                            <label>Nama Wakil Ketua</label>
+                            <input type="text" id="admWakil" placeholder="Nama Wakil Ketua">
+                        </div>
+                        <div>
+                            <label>Nama Sekretaris</label>
+                            <input type="text" id="admSekretaris" placeholder="Nama Sekretaris">
+                        </div>
+                        <div>
+                            <label>Nama Bendahara</label>
+                            <input type="text" id="admBendahara" placeholder="Nama Bendahara">
+                        </div>
+                        <div>
+                            <label>Koordinator Humas / Acara</label>
+                            <input type="text" id="admHumas" placeholder="Nama Koordinator">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-green">💾 Simpan Data Pengurus</button>
+                </form>
+            </div>
+
+            <!-- 2. KELOLA SALDO & ACARA -->
+            <div class="card">
+                <h2>💰 SALDO KAS & ACARA</h2>
+                <form onsubmit="window.simpanKasAcara(event)">
+                    <div class="grid-2">
+                        <div>
+                            <label>Total Saldo Kas (Rp)</label>
+                            <input type="text" id="admSaldo" placeholder="Contoh: 1500000" required>
+                        </div>
+                        <div>
+                            <label>Total Pengeluaran (Rp)</label>
+                            <input type="text" id="admPengeluaran" placeholder="Contoh: 200000">
+                        </div>
+                    </div>
+                    <label>Keterangan / Catatan Saldo Kas</label>
+                    <input type="text" id="admKetSaldo" placeholder="Contoh: Sisa kas per bulan ini setelah pembelian alat PHBI">
+
+                    <label style="margin-top: 16px;">Judul Acara Terdekat</label>
+                    <input type="text" id="admJudulAcara" placeholder="Judul Kegiatan">
+                    <label>Jadwal / Keterangan Acara</label>
+                    <input type="text" id="admJadwalAcara" placeholder="Waktu & Tempat">
+                    <button type="submit" class="btn-blue">💾 Simpan Kas & Acara</button>
+                </form>
+            </div>
+
+            <!-- 3. KELOLA ANGGOTA / PENDAFTAR -->
+            <div class="card">
+                <h2>📋 DAFTAR ANGGOTA & PENDAFTAR</h2>
+                <div style="overflow-x: auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>No. WA</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelPendaftar">
+                            <tr><td colspan="4" style="text-align:center;">Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div>
+
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, set, update, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, update, remove, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-f7pwEuIQeRFyxLFN3tv9lyNB1487ST8",
@@ -128,48 +168,101 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // BACA PENGURUS
-        onValue(ref(db, 'irma_pengurus'), (snapshot) => {
-            const data = snapshot.val() || {};
-            document.getElementById('admPembina').value = data.pembina || '';
-            document.getElementById('admKetua').value = data.ketua || '';
-            document.getElementById('admWakil').value = data.wakil || '';
-            document.getElementById('admSekretaris').value = data.sekretaris || '';
-            document.getElementById('admBendahara').value = data.bendahara || '';
-            document.getElementById('admHumas').value = data.humas || '';
-        });
+        // PASSWORD DEFAULT PERTAMA KALI: admin123
+        const passRef = ref(db, 'irma_admin/password');
 
-        // BACA KAS & ACARA
-        onValue(ref(db, 'irma_info'), (snapshot) => {
-            const data = snapshot.val() || {};
-            document.getElementById('admSaldo').value = data.saldo || '';
-            document.getElementById('admPengeluaran').value = data.pengeluaran || '';
-            document.getElementById('admKetSaldo').value = data.ketSaldo || '';
-            document.getElementById('admJudulAcara').value = data.judulAcara || '';
-            document.getElementById('admJadwalAcara').value = data.jadwalAcara || '';
-        });
+        // PROSES LOGIN ADMIN
+        window.prosesLoginAdmin = function(e) {
+            e.preventDefault();
+            const inputPass = document.getElementById('inputPassAdmin').value;
 
-        // BACA ANGGOTA
-        onValue(ref(db, 'irma_pendaftar'), (snapshot) => {
-            const data = snapshot.val();
-            const tbody = document.getElementById('tabelPendaftar');
-            if(!data) {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada pendaftar.</td></tr>';
+            get(passRef).then((snapshot) => {
+                let realPass = snapshot.val();
+                if (!realPass) {
+                    // Set default password jika di Firebase belum ada
+                    realPass = "admin123";
+                    set(passRef, realPass);
+                }
+
+                if (inputPass === realPass) {
+                    document.getElementById('secLoginAdmin').style.display = 'none';
+                    document.getElementById('secDashboardAdmin').style.display = 'block';
+                    document.getElementById('pesanLoginAdmin').textContent = '';
+                    muatDataAdmin();
+                } else {
+                    document.getElementById('pesanLoginAdmin').textContent = 'Password Admin Salah!';
+                }
+            });
+        };
+
+        // UBAH PASSWORD ADMIN
+        window.ubahPasswordAdmin = function(e) {
+            e.preventDefault();
+            const p1 = document.getElementById('passBaru1').value;
+            const p2 = document.getElementById('passBaru2').value;
+
+            if (p1 !== p2) {
+                alert('Konfirmasi Password Baru tidak cocok!');
                 return;
             }
-            const list = Object.values(data);
-            tbody.innerHTML = list.map(item => `
-                <tr>
-                    <td><b>${item.nama || '-'}</b><br><small>${item.alamat || ''}</small></td>
-                    <td>${item.whatsapp || '-'}</td>
-                    <td><span class="status-badge ${item.status === 'Diterima' ? 'status-diterima' : 'status-pending'}">${item.status || 'Pending'}</span></td>
-                    <td style="display:flex; gap:4px;">
-                        ${item.status !== 'Diterima' ? `<button onclick="window.accUser('${item.whatsapp}')" class="btn-acc">ACC</button>` : ''}
-                        <button onclick="window.hapusUser('${item.whatsapp}')" class="btn-danger">Hapus</button>
-                    </td>
-                </tr>
-            `).join('');
-        });
+
+            set(passRef, p1).then(() => {
+                alert('Password Admin Berhasil Diperbarui!');
+                document.getElementById('passBaru1').value = '';
+                document.getElementById('passBaru2').value = '';
+            });
+        };
+
+        window.logoutAdmin = function() {
+            document.getElementById('secDashboardAdmin').style.display = 'none';
+            document.getElementById('secLoginAdmin').style.display = 'block';
+            document.getElementById('inputPassAdmin').value = '';
+        };
+
+        function muatDataAdmin() {
+            // BACA PENGURUS
+            onValue(ref(db, 'irma_pengurus'), (snapshot) => {
+                const data = snapshot.val() || {};
+                document.getElementById('admPembina').value = data.pembina || '';
+                document.getElementById('admKetua').value = data.ketua || '';
+                document.getElementById('admWakil').value = data.wakil || '';
+                document.getElementById('admSekretaris').value = data.sekretaris || '';
+                document.getElementById('admBendahara').value = data.bendahara || '';
+                document.getElementById('admHumas').value = data.humas || '';
+            });
+
+            // BACA KAS & ACARA
+            onValue(ref(db, 'irma_info'), (snapshot) => {
+                const data = snapshot.val() || {};
+                document.getElementById('admSaldo').value = data.saldo || '';
+                document.getElementById('admPengeluaran').value = data.pengeluaran || '';
+                document.getElementById('admKetSaldo').value = data.ketSaldo || '';
+                document.getElementById('admJudulAcara').value = data.judulAcara || '';
+                document.getElementById('admJadwalAcara').value = data.jadwalAcara || '';
+            });
+
+            // BACA ANGGOTA
+            onValue(ref(db, 'irma_pendaftar'), (snapshot) => {
+                const data = snapshot.val();
+                const tbody = document.getElementById('tabelPendaftar');
+                if(!data) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada pendaftar.</td></tr>';
+                    return;
+                }
+                const list = Object.values(data);
+                tbody.innerHTML = list.map(item => `
+                    <tr>
+                        <td><b>${item.nama || '-'}</b><br><small>${item.alamat || ''}</small></td>
+                        <td>${item.whatsapp || '-'}</td>
+                        <td><span class="status-badge ${item.status === 'Diterima' ? 'status-diterima' : 'status-pending'}">${item.status || 'Pending'}</span></td>
+                        <td style="display:flex; gap:4px;">
+                            ${item.status !== 'Diterima' ? `<button onclick="window.accUser('${item.whatsapp}')" class="btn-acc">ACC</button>` : ''}
+                            <button onclick="window.hapusUser('${item.whatsapp}')" class="btn-danger">Hapus</button>
+                        </td>
+                    </tr>
+                `).join('');
+            });
+        }
 
         // SIMPAN PENGURUS
         window.simpanPengurus = function(e) {

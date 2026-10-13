@@ -36,7 +36,6 @@
         .jabatan-title { font-size: 12px; font-weight: bold; color: #0284c7; text-transform: uppercase; }
         .nama-val { font-size: 15px; font-weight: bold; color: #0f172a; }
         
-        /* STYLE CHAT ROOM */
         .chat-box { height: 320px; overflow-y: auto; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
         .chat-item { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; }
         .chat-item.me { align-self: flex-end; background: #0284c7; color: white; border-bottom-right-radius: 2px; }
@@ -44,7 +43,6 @@
         .chat-sender { font-size: 11px; font-weight: bold; margin-bottom: 2px; opacity: 0.8; }
         .chat-time { font-size: 10px; opacity: 0.7; text-align: right; margin-top: 4px; }
 
-        /* STYLE PERATURAN */
         .aturan-list { font-size: 13px; line-height: 1.6; color: #334155; padding-left: 18px; margin-top: 6px; }
         .aturan-list li { margin-bottom: 6px; }
     </style>
@@ -123,14 +121,13 @@
                     </div>
                 </div>
 
-                <!-- CATATAN / KETERANGAN KAS -->
                 <div class="stat-box" style="text-align: left; background: #f8fafc; border-color: #cbd5e1;">
                     <span style="font-size: 11px; color: #64748b; font-weight: bold;">KETERANGAN / CATATAN KAS</span>
                     <div style="font-size: 13px; color: #334155; margin-top: 4px; font-style: italic;" id="dispKetSaldo">- Tidak ada catatan tambahan -</div>
                 </div>
             </div>
 
-            <!-- TAB 3: PENGURUS (REALTIME) -->
+            <!-- TAB 3: PENGURUS -->
             <div id="tabPengurus" class="tab-content card" style="display: none;">
                 <h2>👥 Pengurus Komunitas</h2>
                 <p class="sub">Struktur kepengurusan IRMA Ahlul Khoer terkini:</p>
@@ -174,7 +171,7 @@
                 </div>
             </div>
 
-            <!-- TAB 4: PERATURAN & TATA TERTIB -->
+            <!-- TAB 4: PERATURAN -->
             <div id="tabPeraturan" class="tab-content card" style="display: none;">
                 <h2>📜 Peraturan & Tata Tertib IRMA</h2>
                 <p class="sub">Pedoman keanggotaan dan etika organisasi IRMA Ahlul Khoer.</p>
@@ -204,7 +201,7 @@
                 </ul>
             </div>
 
-            <!-- TAB 5: OBROLAN ANGGOTA (GROUP CHAT) -->
+            <!-- TAB 5: OBROLAN -->
             <div id="tabChat" class="tab-content card" style="display: none;">
                 <h2>💬 Ruang Obrolan Anggota</h2>
                 <p class="sub">Diskusi & obrolan sesama anggota terdaftar secara realtime.</p>
@@ -277,8 +274,31 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
+        // CONFIG FONNTE NOTIFIKASI ADMIN
+        const FONNTE_TOKEN = "E5zCzLRGc9kzjFSG1fpw";
+        const TARGET_WA_ADMIN = "08979205079"; // Nomor WA Admin Anda
+
         let waAktif = '';
         let namaAktif = '';
+
+        // FUNGSI KIRIM NOTIFIKASI VIA FONNTE WA
+        function kirimNotifWaFonnte(data) {
+            if (!FONNTE_TOKEN || !TARGET_WA_ADMIN) return;
+
+            const pesan = `🔔 *PENDAFTAR BARU IRMA AHLUL KHOER*\n\n👤 *Nama:* ${data.nama}\n🔢 *Usia:* ${data.usia} Tahun\n📱 *No. WA:* ${data.whatsapp}\n📍 *Alamat:* ${data.alamat}\n\nSilakan buka halaman Admin untuk melakukan ACC!`;
+
+            const formData = new FormData();
+            formData.append('target', TARGET_WA_ADMIN);
+            formData.append('message', pesan);
+
+            fetch('https://api.fonnte.com/send', {
+                method: 'POST',
+                headers: {
+                    'Authorization': FONNTE_TOKEN
+                },
+                body: formData
+            }).then(res => res.json()).then(res => console.log('Notif WA terkirim:', res)).catch(err => console.log('Gagal kirim notif WA:', err));
+        }
 
         // 1. DENGARKAN DATA PENGURUS REALTIME
         onValue(ref(db, 'irma_pengurus'), (snapshot) => {
@@ -360,6 +380,10 @@
                 } else {
                     set(userRef, dataBaru).then(() => {
                         tampilPesan('pesanDaftar', 'Pendaftaran Berhasil! Menunggu konfirmasi Admin.', 'pesan-sukses');
+                        
+                        // KIRIM NOTIFIKASI WA KEPADA ADMIN VIA FONNTE
+                        kirimNotifWaFonnte(dataBaru);
+                        
                         e.target.reset();
                     });
                 }

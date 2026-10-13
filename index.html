@@ -34,6 +34,14 @@
         .item-pengurus { padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
         .jabatan-title { font-size: 12px; font-weight: bold; color: #0284c7; text-transform: uppercase; }
         .nama-val { font-size: 15px; font-weight: bold; color: #0f172a; }
+        
+        /* STYLE CHAT ROOM */
+        .chat-box { height: 320px; overflow-y: auto; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+        .chat-item { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; }
+        .chat-item.me { align-self: flex-end; background: #0284c7; color: white; border-bottom-right-radius: 2px; }
+        .chat-item.other { align-self: flex-start; background: #e2e8f0; color: #0f172a; border-bottom-left-radius: 2px; }
+        .chat-sender { font-size: 11px; font-weight: bold; margin-bottom: 2px; opacity: 0.8; }
+        .chat-time { font-size: 10px; opacity: 0.7; text-align: right; margin-top: 4px; }
     </style>
 </head>
 <body>
@@ -62,6 +70,7 @@
                 <button class="tab-btn active" onclick="window.bukaTab('tabKegiatan', this)">📅 Kegiatan</button>
                 <button class="tab-btn" onclick="window.bukaTab('tabKeuangan', this)">💰 Kas</button>
                 <button class="tab-btn" onclick="window.bukaTab('tabPengurus', this)">👥 Pengurus</button>
+                <button class="tab-btn" onclick="window.bukaTab('tabChat', this)">💬 Obrolan</button>
                 <button class="tab-btn" onclick="window.bukaTab('tabProfil', this)">⚙️ Profil</button>
             </div>
 
@@ -96,7 +105,8 @@
             <div id="tabKeuangan" class="tab-content card" style="display: none;">
                 <h2>💰 Transparansi Kas Komunitas</h2>
                 <p class="sub">Laporan keuangan kas terkini IRMA Ahlul Khoer.</p>
-                <div class="grid-2">
+                
+                <div class="grid-2" style="margin-bottom: 12px;">
                     <div class="stat-box">
                         <span style="font-size: 12px; color: #64748b; font-weight: bold;">TOTAL SALDO</span>
                         <div class="stat-number" style="color: #059669;" id="dispSaldo">Rp 0</div>
@@ -105,6 +115,12 @@
                         <span style="font-size: 12px; color: #64748b; font-weight: bold;">PENGELUARAN</span>
                         <div class="stat-number" style="color: #e11d48;" id="dispPengeluaran">Rp 0</div>
                     </div>
+                </div>
+
+                <!-- CATATAN / KETERANGAN KAS -->
+                <div class="stat-box" style="text-align: left; background: #f8fafc; border-color: #cbd5e1;">
+                    <span style="font-size: 11px; color: #64748b; font-weight: bold;">KETERANGAN / CATATAN KAS</span>
+                    <div style="font-size: 13px; color: #334155; margin-top: 4px; font-style: italic;" id="dispKetSaldo">- Tidak ada catatan tambahan -</div>
                 </div>
             </div>
 
@@ -152,7 +168,22 @@
                 </div>
             </div>
 
-            <!-- TAB 4: PROFIL -->
+            <!-- TAB 4: OBROLAN ANGGOTA (GROUP CHAT) -->
+            <div id="tabChat" class="tab-content card" style="display: none;">
+                <h2>💬 Ruang Obrolan Anggota</h2>
+                <p class="sub">Diskusi & obrolan sesama anggota terdaftar secara realtime.</p>
+                
+                <div id="boxObrolan" class="chat-box">
+                    <div style="text-align: center; font-size: 12px; color: #94a3b8; margin: auto;">Memuat pesan...</div>
+                </div>
+
+                <form onsubmit="window.kirimPesanChat(event)" style="display: flex; gap: 8px;">
+                    <input type="text" id="inputPesanChat" placeholder="Ketik pesan di sini..." required style="margin: 0;">
+                    <button type="submit" class="btn-blue" style="width: auto; margin: 0; padding: 10px 18px;">Kirim</button>
+                </form>
+            </div>
+
+            <!-- TAB 5: PROFIL -->
             <div id="tabProfil" class="tab-content card" style="display: none;">
                 <h2>⚙️ Profil Saya</h2>
                 <form onsubmit="window.simpanProfil(event)">
@@ -195,7 +226,7 @@
     <!-- FIREBASE MODULE SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, set, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, get, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-f7pwEuIQeRFyxLFN3tv9lyNB1487ST8",
@@ -211,6 +242,7 @@
         const db = getDatabase(app);
 
         let waAktif = '';
+        let namaAktif = '';
 
         // 1. DENGARKAN DATA PENGURUS REALTIME
         onValue(ref(db, 'irma_pengurus'), (snapshot) => {
@@ -228,11 +260,52 @@
             const data = snapshot.val() || {};
             document.getElementById('dispSaldo').textContent = data.saldo ? 'Rp ' + Number(data.saldo).toLocaleString('id-ID') : 'Rp 0';
             document.getElementById('dispPengeluaran').textContent = data.pengeluaran ? 'Rp ' + Number(data.pengeluaran).toLocaleString('id-ID') : 'Rp 0';
+            document.getElementById('dispKetSaldo').textContent = data.ketSaldo || '- Tidak ada catatan tambahan -';
             document.getElementById('dispJudulAcara').textContent = data.judulAcara || 'Belum ada acara';
             document.getElementById('dispJadwalAcara').textContent = data.jadwalAcara || '-';
         });
 
-        // 3. PROSES PENDAFTARAN ANGGOTA
+        // 3. DENGARKAN OBROLAN REALTIME
+        onValue(ref(db, 'irma_chat'), (snapshot) => {
+            const data = snapshot.val();
+            const box = document.getElementById('boxObrolan');
+            if(!data) {
+                box.innerHTML = '<div style="text-align: center; font-size: 12px; color: #94a3b8; margin: auto;">Belum ada pesan. Mulai obrolan sekarang!</div>';
+                return;
+            }
+            const list = Object.values(data);
+            box.innerHTML = list.map(c => {
+                const isMe = c.wa === waAktif;
+                return `
+                    <div class="chat-item ${isMe ? 'me' : 'other'}">
+                        <div class="chat-sender">${isMe ? 'Saya' : c.nama}</div>
+                        <div>${c.pesan}</div>
+                        <div class="chat-time">${c.waktu || ''}</div>
+                    </div>
+                `;
+            }).join('');
+            box.scrollTop = box.scrollHeight;
+        });
+
+        // KIRIM PESAN CHAT
+        window.kirimPesanChat = function(e) {
+            e.preventDefault();
+            const input = document.getElementById('inputPesanChat');
+            const teks = input.value.trim();
+            if(!teks || !waAktif) return;
+
+            const jam = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            push(ref(db, 'irma_chat'), {
+                nama: namaAktif || 'Anggota',
+                wa: waAktif,
+                pesan: teks,
+                waktu: jam
+            }).then(() => {
+                input.value = '';
+            });
+        };
+
+        // 4. PROSES PENDAFTARAN ANGGOTA
         window.prosesPendaftaran = function(e) {
             e.preventDefault();
             const cleanWa = document.getElementById('regWa').value.trim().replace(/[^0-9]/g, '');
@@ -257,7 +330,7 @@
             });
         };
 
-        // 4. CEK STATUS / LOGIN
+        // 5. CEK STATUS / LOGIN
         window.prosesCekStatus = function(e) {
             e.preventDefault();
             const cleanWa = document.getElementById('cekWa').value.trim().replace(/[^0-9]/g, '');
@@ -272,6 +345,7 @@
                     tampilPesan('pesanCek', 'Status Pendaftaran Anda masih PENDING.', 'pesan-warning');
                 } else if (user.status === 'Diterima') {
                     waAktif = cleanWa;
+                    namaAktif = user.nama || 'Anggota';
                     document.getElementById('profNama').value = user.nama || '';
                     document.getElementById('profUsia').value = user.usia || '';
                     document.getElementById('profWa').value = user.whatsapp || '';
@@ -290,17 +364,22 @@
         window.simpanProfil = function(e) {
             e.preventDefault();
             if(!waAktif) return;
+            const newNama = document.getElementById('profNama').value.trim();
             set(ref(db, 'irma_pendaftar/' + waAktif), {
-                nama: document.getElementById('profNama').value.trim(),
+                nama: newNama,
                 usia: document.getElementById('profUsia').value.trim(),
                 whatsapp: waAktif,
                 alamat: document.getElementById('profAlamat').value.trim(),
                 status: 'Diterima'
-            }).then(() => tampilPesan('pesanProfil', 'Profil diperbarui!', 'pesan-sukses'));
+            }).then(() => {
+                namaAktif = newNama;
+                tampilPesan('pesanProfil', 'Profil diperbarui!', 'pesan-sukses');
+            });
         };
 
         window.keluarPortal = function() {
             waAktif = '';
+            namaAktif = '';
             document.getElementById('sectionDashboard').style.display = 'none';
             document.getElementById('sectionCek').style.display = 'block';
             document.getElementById('sectionDaftar').style.display = 'block';

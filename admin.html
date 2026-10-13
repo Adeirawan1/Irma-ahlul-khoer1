@@ -3,317 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - IRMA AHLUL KHOER</title>
+    <title>Admin - IRMA AHLUL KHOER</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: #f1f5f9; color: #334155; padding-bottom: 50px; }
-        nav { background: #0f172a; color: white; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo { font-weight: bold; font-size: 18px; color: #38bdf8; text-decoration: none; }
-        .btn-logout { background: #ef4444; color: white; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; cursor: pointer; }
-        
-        .container { max-width: 900px; margin: 24px auto; padding: 0 16px; }
-        .card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px; border: 1px solid #e2e8f0; }
-        h2 { color: #0f172a; font-size: 20px; margin-bottom: 6px; }
-        p.sub { color: #64748b; font-size: 13px; margin-bottom: 18px; }
-
-        .tab-menu { display: flex; gap: 8px; margin-bottom: 20px; border-bottom: 2px solid #cbd5e1; padding-bottom: 8px; overflow-x: auto; }
-        .tab-btn { padding: 10px 16px; background: none; border: none; font-size: 14px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 6px; white-space: nowrap; }
-        .tab-btn.active { background: #0f172a; color: white; }
-
-        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-        .stat-card { padding: 14px; border-radius: 8px; text-align: center; border: 1px solid #e2e8f0; background: #f8fafc; }
-        .stat-val { font-size: 22px; font-weight: bold; margin-top: 4px; }
-
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        th { background: #f8fafc; padding: 12px; border-bottom: 2px solid #e2e8f0; color: #475569; }
-        td { padding: 12px; border-bottom: 1px solid #f1f5f9; }
-        .badge { font-size: 11px; padding: 4px 8px; border-radius: 12px; font-weight: bold; }
-        .badge-pending { background: #fef3c7; color: #92400e; }
-        .badge-diterima { background: #d1fae5; color: #065f46; }
-        .badge-ditolak { background: #ffe4e6; color: #9f1239; }
-
-        .btn-act { padding: 6px 10px; border-radius: 4px; border: none; cursor: pointer; font-size: 12px; font-weight: bold; margin-right: 4px; }
-        .btn-acc { background: #d1fae5; color: #065f46; }
-        .btn-rej { background: #ffe4e6; color: #9f1239; }
-        .btn-del { background: #f1f5f9; color: #475569; }
-
-        label { display: block; margin-top: 12px; font-weight: 600; font-size: 13px; }
-        input { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
-        button.btn-submit { background: #0d9488; color: white; padding: 10px; border: none; border-radius: 6px; font-weight: bold; margin-top: 14px; cursor: pointer; width: 100%; }
+        body { background-color: #0f172a; color: #f8fafc; padding: 20px 12px; }
+        .container { max-width: 900px; margin: auto; }
+        .card { background: #1e293b; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #334155; }
+        h2 { color: #38bdf8; font-size: 18px; margin-bottom: 12px; border-bottom: 1px solid #334155; padding-bottom: 8px; }
+        label { display: block; font-size: 12px; font-weight: bold; color: #94a3b8; margin-top: 10px; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 4px; background: #0f172a; border: 1px solid #475569; color: white; border-radius: 6px; font-size: 14px; }
+        button { width: 100%; padding: 11px; margin-top: 14px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; }
+        .btn-green { background: #16a34a; }
+        .btn-blue { background: #0284c7; }
+        .btn-danger { background: #dc2626; padding: 6px 10px; font-size: 12px; width: auto; margin: 0; }
+        .btn-acc { background: #16a34a; padding: 6px 10px; font-size: 12px; width: auto; margin: 0; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 13px; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #334155; }
+        th { color: #38bdf8; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .status-badge { padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; display: inline-block; }
+        .status-diterima { background: #065f46; color: #34d399; }
+        .status-pending { background: #78350f; color: #fbbf24; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#" class="logo">⚙️ ADMIN IRMA AHLUL KHOER</a>
-        <button onclick="logoutAdmin()" class="btn-logout">Keluar (Logout)</button>
-    </nav>
-
     <div class="container">
+        <h1 style="color: #38bdf8; font-size: 22px; margin-bottom: 20px; text-align: center;">PANEL KONTROL ADMIN IRMA</h1>
 
-        <!-- TAB NAVIGASI UTAMA ADMIN -->
-        <div class="tab-menu">
-            <button class="tab-btn active" onclick="bukaTabAdmin('tabPendaftar', this)">👥 Kelola Anggota</button>
-            <button class="tab-btn" onclick="bukaTabAdmin('tabKelolaPengurus', this)">👔 Pengurus</button>
-            <button class="tab-btn" onclick="bukaTabAdmin('tabKelolaKas', this)">💰 Update Kas</button>
-            <button class="tab-btn" onclick="bukaTabAdmin('tabKelolaKegiatan', this)">📅 Kegiatan</button>
-            <button class="tab-btn" onclick="bukaTabAdmin('tabPassAdmin', this)">🔐 Ganti Password</button>
+        <!-- 1. KELOLA PENGURUS (SIMPEL) -->
+        <div class="card">
+            <h2>👥 KelOLA DATA PENGURUS</h2>
+            <form onsubmit="window.simpanPengurus(event)">
+                <div class="grid-2">
+                    <div>
+                        <label>Nama Pembina / Penasihat</label>
+                        <input type="text" id="admPembina" placeholder="Nama Pembina" required>
+                    </div>
+                    <div>
+                        <label>Nama Ketua IRMA</label>
+                        <input type="text" id="admKetua" placeholder="Nama Ketua" required>
+                    </div>
+                    <div>
+                        <label>Nama Wakil Ketua</label>
+                        <input type="text" id="admWakil" placeholder="Nama Wakil Ketua">
+                    </div>
+                    <div>
+                        <label>Nama Sekretaris</label>
+                        <input type="text" id="admSekretaris" placeholder="Nama Sekretaris">
+                    </div>
+                    <div>
+                        <label>Nama Bendahara</label>
+                        <input type="text" id="admBendahara" placeholder="Nama Bendahara">
+                    </div>
+                    <div>
+                        <label>Koordinator Humas / Acara</label>
+                        <input type="text" id="admHumas" placeholder="Nama Koordinator">
+                    </div>
+                </div>
+                <button type="submit" class="btn-green">💾 Simpan Data Pengurus</button>
+            </form>
         </div>
 
-        <!-- 1. TAB KELOLA ANGGOTA -->
-        <div id="tabPendaftar" class="tab-content card">
-            <h2>Statistik & Permohonan Anggota</h2>
-            <p class="sub">Ringkasan jumlah pendaftar dan opsi persetujuan anggota baru.</p>
+        <!-- 2. KELOLA SALDO & ACARA -->
+        <div class="card">
+            <h2>💰 SALDO KAS & ACARA</h2>
+            <form onsubmit="window.simpanKasAcara(event)">
+                <div class="grid-2">
+                    <div>
+                        <label>Total Saldo Kas (Rp)</label>
+                        <input type="text" id="admSaldo" placeholder="Contoh: 1500000" required>
+                    </div>
+                    <div>
+                        <label>Total Pengeluaran (Rp)</label>
+                        <input type="text" id="admPengeluaran" placeholder="Contoh: 200000">
+                    </div>
+                </div>
+                <label>Judul Acara Terdekat</label>
+                <input type="text" id="admJudulAcara" placeholder="Judul Kegiatan">
+                <label>Jadwal / Keterangan Acara</label>
+                <input type="text" id="admJadwalAcara" placeholder="Waktu & Tempat">
+                <button type="submit" class="btn-blue">💾 Simpan Kas & Acara</button>
+            </form>
+        </div>
 
-            <div class="grid-3">
-                <div class="stat-card">
-                    <div style="font-size: 11px; color: #64748b; font-weight: bold;">TOTAL PENDAFTAR</div>
-                    <div id="statTotal" class="stat-val" style="color: #0f172a;">0</div>
-                </div>
-                <div class="stat-card" style="background: #f0fdf4; border-color: #bbf7d0;">
-                    <div style="font-size: 11px; color: #166534; font-weight: bold;">DITERIMA (AKTIF)</div>
-                    <div id="statDiterima" class="stat-val" style="color: #059669;">0</div>
-                </div>
-                <div class="stat-card" style="background: #fef3c7; border-color: #fde68a;">
-                    <div style="font-size: 11px; color: #92400e; font-weight: bold;">MENUNGGU (PENDING)</div>
-                    <div id="statPending" class="stat-val" style="color: #d97706;">0</div>
-                </div>
-            </div>
-
+        <!-- 3. KELOLA ANGGOTA / PENDAFTAR -->
+        <div class="card">
+            <h2>📋 DAFTAR ANGGOTA & PENDAFTAR</h2>
             <div style="overflow-x: auto;">
                 <table>
                     <thead>
                         <tr>
                             <th>Nama</th>
-                            <th>Usia</th>
-                            <th>WhatsApp</th>
-                            <th>Alamat</th>
+                            <th>No. WA</th>
                             <th>Status</th>
-                            <th style="text-align: center;">Aksi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="tabelPendaftar">
-                        <tr><td colspan="6" style="text-align:center;">Memuat data...</td></tr>
+                        <tr><td colspan="4" style="text-align:center;">Memuat data...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <!-- 2. TAB KELOLA PENGURUS (TEMPAT UBAH PENGURUS) -->
-        <div id="tabKelolaPengurus" class="tab-content card" style="display: none;">
-            <h2>👔 Atur Nama Pengurus Komunitas</h2>
-            <p class="sub">Ubah susunan kepengurusan yang tampil di portal anggota.</p>
-            <form onsubmit="simpanPengurus(event)">
-                <label>Nama Pembina</label>
-                <input type="text" id="admPembina" placeholder="Contoh: Ust. Ahmad Ridwan" required>
-
-                <label>Nama Ketua IRMA</label>
-                <input type="text" id="admKetua" placeholder="Contoh: Muhammad Fauzan" required>
-
-                <label>Nama Sekretaris</label>
-                <input type="text" id="admSekretaris" placeholder="Contoh: Siti Nurhaliza" required>
-
-                <label>Nama Bendahara</label>
-                <input type="text" id="admBendahara" placeholder="Contoh: Asep Sunandar" required>
-
-                <button type="submit" class="btn-submit">Simpan Susunan Pengurus</button>
-            </form>
-        </div>
-
-        <!-- 3. TAB KELOLA SALDO KAS -->
-        <div id="tabKelolaKas" class="tab-content card" style="display: none;">
-            <h2>💰 Kelola Saldo Kas & Pengeluaran</h2>
-            <p class="sub">Perbarui saldo kas dan pengeluaran yang tampil di aplikasi anggota.</p>
-            <form onsubmit="simpanKas(event)">
-                <label>Total Saldo Kas Terkini</label>
-                <input type="text" id="adminSaldo" placeholder="Contoh: Rp 1.250.000" required>
-
-                <label>Total Pengeluaran Bulan Ini</label>
-                <input type="text" id="adminPengeluaran" placeholder="Contoh: Rp 350.000" required>
-
-                <button type="submit" class="btn-submit">Simpan Perubahan Keuangan</button>
-            </form>
-        </div>
-
-        <!-- 4. TAB KELOLA KEGIATAN -->
-        <div id="tabKelolaKegiatan" class="tab-content card" style="display: none;">
-            <h2>📅 Atur Pengumuman & Acara Terdekat</h2>
-            <p class="sub">Perbarui info acara terdekat di halaman utama anggota.</p>
-            <form onsubmit="simpanKegiatan(event)">
-                <label>Judul Acara Terdekat</label>
-                <input type="text" id="adminJudulAcara" placeholder="Contoh: Kajian Rutin & Riung Remaja" required>
-
-                <label>Jadwal & Tempat Pelaksanaan</label>
-                <input type="text" id="adminJadwalAcara" placeholder="Contoh: Setiap Sabtu Malam (Ba'da Isya) di Masjid" required>
-
-                <button type="submit" class="btn-submit">Simpan Pengumuman Kegiatan</button>
-            </form>
-        </div>
-
-        <!-- 5. TAB GANTI PASSWORD -->
-        <div id="tabPassAdmin" class="tab-content card" style="display: none;">
-            <h2>🔐 Ganti Password Admin</h2>
-            <p class="sub">Ubah password akses masuk ke panel admin ini.</p>
-            <form onsubmit="simpanPasswordBaru(event)">
-                <label>Password Baru</label>
-                <input type="password" id="adminPassBaru" placeholder="Masukkan password baru" required>
-                <button type="submit" class="btn-submit" style="background-color: #0f172a;">Perbarui Password</button>
-            </form>
-        </div>
-
     </div>
 
-    <script>
-        if (localStorage.getItem('irma_is_logged_in') !== 'true') {
-            window.location.href = 'login.html';
-        }
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set, update, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        function logoutAdmin() {
-            localStorage.removeItem('irma_is_logged_in');
-            window.location.href = 'login.html';
-        }
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-f7pwEuIQeRFyxLFN3tv9lyNB1487ST8",
+            authDomain: "irmaahlulkhoer.firebaseapp.com",
+            databaseURL: "https://irmaahlulkhoer-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "irmaahlulkhoer",
+            storageBucket: "irmaahlulkhoer.firebasestorage.app",
+            messagingSenderId: "553080340311",
+            appId: "1:553080340311:web:ca9577f0e69609ff77c812"
+        };
 
-        function bukaTabAdmin(tabId, btn) {
-            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            
-            const targetTab = document.getElementById(tabId);
-            if(targetTab) targetTab.style.display = 'block';
-            if(btn) btn.classList.add('active');
-        }
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-        function muatPendaftar() {
-            const tabel = document.getElementById('tabelPendaftar');
-            if(!tabel) return;
-
-            const daftar = JSON.parse(localStorage.getItem('irma_pendaftar')) || [];
-
-            const totalSemua = daftar.length;
-            const totalDiterima = daftar.filter(x => x.status === 'Diterima').length;
-            const totalPending = daftar.filter(x => x.status === 'Pending').length;
-
-            if(document.getElementById('statTotal')) document.getElementById('statTotal').textContent = totalSemua;
-            if(document.getElementById('statDiterima')) document.getElementById('statDiterima').textContent = totalDiterima;
-            if(document.getElementById('statPending')) document.getElementById('statPending').textContent = totalPending;
-
-            if (daftar.length === 0) {
-                tabel.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#94a3b8; padding:20px;">Belum ada pendaftar baru.</td></tr>';
-                return;
-            }
-
-            tabel.innerHTML = daftar.map((item, idx) => {
-                let badgeClass = 'badge-pending';
-                if (item.status === 'Diterima') badgeClass = 'badge-diterima';
-                if (item.status === 'Ditolak') badgeClass = 'badge-ditolak';
-
-                let noWa = (item.whatsapp || '').replace(/^0/, '62');
-
-                return `
-                    <tr>
-                        <td><b>${item.nama || '-'}</b></td>
-                        <td>${item.usia || '-'} th</td>
-                        <td><a href="https://wa.me/${noWa}" target="_blank" style="color:#059669; font-weight:bold; text-decoration:none;">${item.whatsapp || '-'}</a></td>
-                        <td>${item.alamat || '-'}</td>
-                        <td><span class="badge ${badgeClass}">${item.status || 'Pending'}</span></td>
-                        <td style="text-align: center;">
-                            <button onclick="ubahStatusAnggota(${idx}, 'Diterima')" class="btn-act btn-acc" title="ACC">✓ ACC</button>
-                            <button onclick="ubahStatusAnggota(${idx}, 'Ditolak')" class="btn-act btn-rej" title="Tolak">✕ Tolak</button>
-                            <button onclick="hapusAnggota(${idx})" class="btn-act btn-del" title="Hapus">🗑</button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function ubahStatusAnggota(idx, status) {
-            let daftar = JSON.parse(localStorage.getItem('irma_pendaftar')) || [];
-            if(daftar[idx]) {
-                daftar[idx].status = status;
-                localStorage.setItem('irma_pendaftar', JSON.stringify(daftar));
-                muatPendaftar();
-            }
-        }
-
-        function hapusAnggota(idx) {
-            if (confirm('Apakah Anda yakin ingin menghapus data pendaftar ini?')) {
-                let daftar = JSON.parse(localStorage.getItem('irma_pendaftar')) || [];
-                daftar.splice(idx, 1);
-                localStorage.setItem('irma_pendaftar', JSON.stringify(daftar));
-                muatPendaftar();
-            }
-        }
-
-        // Simpan Data Pengurus
-        function simpanPengurus(e) {
-            e.preventDefault();
-            const dataPengurus = {
-                pembina: document.getElementById('admPembina').value.trim(),
-                ketua: document.getElementById('admKetua').value.trim(),
-                sekretaris: document.getElementById('admSekretaris').value.trim(),
-                bendahara: document.getElementById('admBendahara').value.trim()
-            };
-            localStorage.setItem('irma_pengurus', JSON.stringify(dataPengurus));
-            alert('Susunan pengurus berhasil diperbarui!');
-        }
-
-        function simpanKas(e) {
-            e.preventDefault();
-            const dataKas = {
-                saldo: document.getElementById('adminSaldo').value,
-                pengeluaran: document.getElementById('adminPengeluaran').value
-            };
-            localStorage.setItem('irma_kas', JSON.stringify(dataKas));
-            alert('Data Kas berhasil diperbarui!');
-        }
-
-        function simpanKegiatan(e) {
-            e.preventDefault();
-            const dataKegiatan = {
-                judul: document.getElementById('adminJudulAcara').value,
-                jadwal: document.getElementById('adminJadwalAcara').value
-            };
-            localStorage.setItem('irma_kegiatan', JSON.stringify(dataKegiatan));
-            alert('Pengumuman Kegiatan berhasil diperbarui!');
-        }
-
-        function simpanPasswordBaru(e) {
-            e.preventDefault();
-            const pw = document.getElementById('adminPassBaru').value.trim();
-            if(pw.length < 4) {
-                alert('Password minimal 4 karakter!');
-                return;
-            }
-            localStorage.setItem('irma_admin_pass', pw);
-            alert('Password Admin berhasil diubah!');
-            document.getElementById('adminPassBaru').value = '';
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            muatPendaftar();
-
-            // Load Data Pengurus
-            const p = JSON.parse(localStorage.getItem('irma_pengurus'));
-            if (p) {
-                if(document.getElementById('admPembina')) document.getElementById('admPembina').value = p.pembina || '';
-                if(document.getElementById('admKetua')) document.getElementById('admKetua').value = p.ketua || '';
-                if(document.getElementById('admSekretaris')) document.getElementById('admSekretaris').value = p.sekretaris || '';
-                if(document.getElementById('admBendahara')) document.getElementById('admBendahara').value = p.bendahara || '';
-            }
-
-            // Load Data Kas
-            const kas = JSON.parse(localStorage.getItem('irma_kas'));
-            if (kas) {
-                if(document.getElementById('adminSaldo')) document.getElementById('adminSaldo').value = kas.saldo || '';
-                if(document.getElementById('adminPengeluaran')) document.getElementById('adminPengeluaran').value = kas.pengeluaran || '';
-            }
-
-            // Load Data Kegiatan
-            const keg = JSON.parse(localStorage.getItem('irma_kegiatan'));
-            if (keg) {
-                if(document.getElementById('adminJudulAcara')) document.getElementById('adminJudulAcara').value = keg.judul || '';
-                if(document.getElementById('adminJadwalAcara')) document.getElementById('adminJadwalAcara').value = keg.jadwal || '';
-            }
+        // BACA PENGURUS
+        onValue(ref(db, 'irma_pengurus'), (snapshot) => {
+            const data = snapshot.val() || {};
+            document.getElementById('admPembina').value = data.pembina || '';
+            document.getElementById('admKetua').value = data.ketua || '';
+            document.getElementById('admWakil').value = data.wakil || '';
+            document.getElementById('admSekretaris').value = data.sekretaris || '';
+            document.getElementById('admBendahara').value = data.bendahara || '';
+            document.getElementById('admHumas').value = data.humas || '';
         });
+
+        // BACA KAS & ACARA
+        onValue(ref(db, 'irma_info'), (snapshot) => {
+            const data = snapshot.val() || {};
+            document.getElementById('admSaldo').value = data.saldo || '';
+            document.getElementById('admPengeluaran').value = data.pengeluaran || '';
+            document.getElementById('admJudulAcara').value = data.judulAcara || '';
+            document.getElementById('admJadwalAcara').value = data.jadwalAcara || '';
+        });
+
+        // BACA ANGGOTA
+        onValue(ref(db, 'irma_pendaftar'), (snapshot) => {
+            const data = snapshot.val();
+            const tbody = document.getElementById('tabelPendaftar');
+            if(!data) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada pendaftar.</td></tr>';
+                return;
+            }
+            const list = Object.values(data);
+            tbody.innerHTML = list.map(item => `
+                <tr>
+                    <td><b>${item.nama || '-'}</b><br><small>${item.alamat || ''}</small></td>
+                    <td>${item.whatsapp || '-'}</td>
+                    <td><span class="status-badge ${item.status === 'Diterima' ? 'status-diterima' : 'status-pending'}">${item.status || 'Pending'}</span></td>
+                    <td style="display:flex; gap:4px;">
+                        ${item.status !== 'Diterima' ? `<button onclick="window.accUser('${item.whatsapp}')" class="btn-acc">ACC</button>` : ''}
+                        <button onclick="window.hapusUser('${item.whatsapp}')" class="btn-danger">Hapus</button>
+                    </td>
+                </tr>
+            `).join('');
+        });
+
+        // SIMPAN PENGURUS
+        window.simpanPengurus = function(e) {
+            e.preventDefault();
+            const pengurusData = {
+                pembina: document.getElementById('admPembina').value,
+                ketua: document.getElementById('admKetua').value,
+                wakil: document.getElementById('admWakil').value,
+                sekretaris: document.getElementById('admSekretaris').value,
+                bendahara: document.getElementById('admBendahara').value,
+                humas: document.getElementById('admHumas').value
+            };
+            set(ref(db, 'irma_pengurus'), pengurusData).then(() => alert('Data Pengurus Berhasil Disimpan!'));
+        };
+
+        // SIMPAN KAS & ACARA
+        window.simpanKasAcara = function(e) {
+            e.preventDefault();
+            const infoData = {
+                saldo: document.getElementById('admSaldo').value,
+                pengeluaran: document.getElementById('admPengeluaran').value,
+                judulAcara: document.getElementById('admJudulAcara').value,
+                jadwalAcara: document.getElementById('admJadwalAcara').value
+            };
+            set(ref(db, 'irma_info'), infoData).then(() => alert('Info Kas & Acara Berhasil Disimpan!'));
+        };
+
+        window.accUser = function(wa) {
+            update(ref(db, 'irma_pendaftar/' + wa), { status: 'Diterima' });
+        };
+
+        window.hapusUser = function(wa) {
+            if(confirm('Hapus pendaftar ini?')) remove(ref(db, 'irma_pendaftar/' + wa));
+        };
     </script>
 </body>
 </html>

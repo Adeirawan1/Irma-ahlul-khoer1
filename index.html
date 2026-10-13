@@ -274,30 +274,28 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // CONFIG FONNTE NOTIFIKASI ADMIN (DENGAN NOMOR WA BARU)
-        const FONNTE_TOKEN = "E5zCzLRGc9kzjFSG1fpw";
-        const TARGET_WA_ADMIN = "6282319729196"; 
+        // CONFIG TELEGRAM BOT NOTIFIKASI
+        const TELEGRAM_BOT_TOKEN = "8922142031:AAHz4w7FhWiLwvNsOArRfTVqSxKGw947DJg"; 
+        const TELEGRAM_CHAT_ID = "ID_TELEGRAM_ANDA"; // <-- GANTI DENGAN ANGKA ID TELEGRAM ANDA (Contoh: "123456789")
 
         let waAktif = '';
         let namaAktif = '';
 
-        // FUNGSI KIRIM NOTIFIKASI VIA FONNTE WA
-        function kirimNotifWaFonnte(data) {
-            if (!FONNTE_TOKEN || !TARGET_WA_ADMIN) return;
+        // FUNGSI KIRIM NOTIFIKASI TELEGRAM
+        function kirimNotifTelegram(data) {
+            if (TELEGRAM_CHAT_ID === "ID_TELEGRAM_ANDA") return;
 
             const pesan = `🔔 *PENDAFTAR BARU IRMA AHLUL KHOER*\n\n👤 *Nama:* ${data.nama}\n🔢 *Usia:* ${data.usia} Tahun\n📱 *No. WA:* ${data.whatsapp}\n📍 *Alamat:* ${data.alamat}\n\nSilakan buka halaman Admin untuk melakukan ACC!`;
 
-            const formData = new FormData();
-            formData.append('target', TARGET_WA_ADMIN);
-            formData.append('message', pesan);
-
-            fetch('https://api.fonnte.com/send', {
+            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
-                headers: {
-                    'Authorization': FONNTE_TOKEN
-                },
-                body: formData
-            }).then(res => res.json()).then(res => console.log('Notif WA terkirim:', res)).catch(err => console.log('Gagal kirim notif WA:', err));
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: pesan,
+                    parse_mode: 'Markdown'
+                })
+            }).catch(err => console.log('Gagal kirim notif:', err));
         }
 
         // 1. DENGARKAN DATA PENGURUS REALTIME
@@ -381,8 +379,8 @@
                     set(userRef, dataBaru).then(() => {
                         tampilPesan('pesanDaftar', 'Pendaftaran Berhasil! Menunggu konfirmasi Admin.', 'pesan-sukses');
                         
-                        // KIRIM NOTIFIKASI WA KEPADA ADMIN VIA FONNTE
-                        kirimNotifWaFonnte(dataBaru);
+                        // KIRIM NOTIFIKASI KE TELEGRAM ADMIN
+                        kirimNotifTelegram(dataBaru);
                         
                         e.target.reset();
                     });

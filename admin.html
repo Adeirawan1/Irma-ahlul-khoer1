@@ -31,9 +31,9 @@
     <div class="container">
         <h1 style="color: #38bdf8; font-size: 22px; margin-bottom: 20px; text-align: center;">PANEL KONTROL ADMIN IRMA</h1>
 
-        <!-- 1. KELOLA PENGURUS (SIMPEL) -->
+        <!-- 1. KELOLA PENGURUS -->
         <div class="card">
-            <h2>👥 KelOLA DATA PENGURUS</h2>
+            <h2>👥 KELOLA DATA PENGURUS</h2>
             <form onsubmit="window.simpanPengurus(event)">
                 <div class="grid-2">
                     <div>
@@ -79,7 +79,10 @@
                         <input type="text" id="admPengeluaran" placeholder="Contoh: 200000">
                     </div>
                 </div>
-                <label>Judul Acara Terdekat</label>
+                <label>Keterangan / Catatan Saldo Kas</label>
+                <input type="text" id="admKetSaldo" placeholder="Contoh: Sisa kas per bulan ini setelah pembelian alat PHBI">
+
+                <label style="margin-top: 16px;">Judul Acara Terdekat</label>
                 <input type="text" id="admJudulAcara" placeholder="Judul Kegiatan">
                 <label>Jadwal / Keterangan Acara</label>
                 <input type="text" id="admJadwalAcara" placeholder="Waktu & Tempat">
@@ -141,6 +144,7 @@
             const data = snapshot.val() || {};
             document.getElementById('admSaldo').value = data.saldo || '';
             document.getElementById('admPengeluaran').value = data.pengeluaran || '';
+            document.getElementById('admKetSaldo').value = data.ketSaldo || '';
             document.getElementById('admJudulAcara').value = data.judulAcara || '';
             document.getElementById('admJadwalAcara').value = data.jadwalAcara || '';
         });
@@ -187,6 +191,7 @@
             const infoData = {
                 saldo: document.getElementById('admSaldo').value,
                 pengeluaran: document.getElementById('admPengeluaran').value,
+                ketSaldo: document.getElementById('admKetSaldo').value,
                 judulAcara: document.getElementById('admJudulAcara').value,
                 jadwalAcara: document.getElementById('admJadwalAcara').value
             };

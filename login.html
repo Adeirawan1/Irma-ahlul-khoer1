@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Admin - IRMA AHLUL KHOER</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #f1f5f9; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; }
+        .card { background: white; padding: 32px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; width: 100%; max-width: 400px; text-align: center; }
+        h2 { color: #0f172a; font-size: 22px; margin-bottom: 8px; }
+        p { color: #64748b; font-size: 13px; margin-bottom: 24px; }
+        label { display: block; text-align: left; font-weight: 600; font-size: 13px; margin-top: 12px; color: #334155; }
+        input { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; margin-top: 20px; background-color: #0f172a; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        button:hover { background-color: #1e293b; }
+        .pesan-error { background: #ffe4e6; color: #9f1239; padding: 10px; border-radius: 6px; font-size: 13px; margin-top: 14px; font-weight: bold; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>🔑 Login Admin</h2>
+        <p>IRMA AHLUL KHOER Control Panel</p>
+        
+        <form onsubmit="prosesLoginAdmin(event)">
+            <label>Password Admin</label>
+            <input type="password" id="passInput" placeholder="Masukkan password admin" required autofocus>
+            <button type="submit">Masuk ke Panel Admin</button>
+        </form>
+        <div id="pesanError" class="pesan-error">Password salah!</div>
+    </div>
+
+    <script>
+        function prosesLoginAdmin(e) {
+            e.preventDefault();
+            const input = document.getElementById('passInput').value.trim();
+            
+            // Ambil password tersimpan di localStorage, atau gunakan '123456' sebagai default
+            const passSistem = localStorage.getItem('irma_admin_pass') || '123456';
+
+            if (input === passSistem) {
+                localStorage.setItem('irma_is_logged_in', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                const err = document.getElementById('pesanError');
+                err.style.display = 'block';
+                err.textContent = 'Password salah!';
+            }
+        }
+    </script>
+</body>
+</html>

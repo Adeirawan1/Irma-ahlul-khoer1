@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRMA AHLUL KHOER - Portal Komunitas Remaja Masjid</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #f1f5f9; color: #334155; padding-bottom: 50px; }
+        
+        /* Navigation Bar */
+        nav {
+            background-color: #0f172a;
+            color: white;
+            padding: 15px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+        }
+        .logo { font-weight: bold; font-size: 18px; color: #38bdf8; text-decoration: none; }
+
+        .container { max-width: 800px; margin: 24px auto; padding: 0 16px; }
+        .card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px; border: 1px solid #e2e8f0; }
+        h2 { color: #0f172a; font-size: 20px; margin-bottom: 6px; }
+        p.sub { color: #64748b; font-size: 13px; margin-bottom: 18px; }
+        
+        /* Form Elements */
+        label { display: block; margin-top: 12px; font-weight: 600; font-size: 13px; color: #1e293b; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; font-size: 14px; }
+        button { width: 100%; padding: 12px; margin-top: 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; }
+        .btn-primary { background-color: #0d9488; }
+        .btn-blue { background-color: #0284c7; }
+        .btn-danger { background-color: #ef4444; }
+
+        /* Pesan & Alert */
+        .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 6px; }
+        .pesan-sukses { background: #d1fae5; color: #065f46; }
+        .pesan-error { background: #ffe4e6; color: #9f1239; }
+        .pesan-warning { background: #fef3c7; color: #92400e; }
+
+        /* Tab Menu */
+        .tab-menu { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
+        .tab-btn { padding: 8px 14px; background: none; border: none; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 6px; white-space: nowrap; width: auto; margin: 0; }
+        .tab-btn.active { background: #0f172a; color: white; }
+
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .stat-box { padding: 16px; border-radius: 8px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; }
+        .stat-number { font-size: 20px; font-weight: bold; margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" class="logo">🕌 IRMA AHLUL KHOER</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- 1. CEK STATUS / LOG IN ANGGOTA -->
+        <div id="sectionCek" class="card">
+            <h2>Cek Status / Masuk Anggota</h2>
+            <p class="sub">Masukkan Nomor WhatsApp yang terdaftar untuk membuka portal anggota.</p>
+            <form onsubmit="prosesCekStatus(event)">
+                <input type="tel" id="cekWa" placeholder="Contoh: 081234567890" required>
+                <button type="submit" class="btn-blue">Masuk ke Portal Anggota</button>
+            </form>
+            <div id="pesanCek"></div>
+        </div>
+
+        <!-- 2. DASHBOARD ANGGOTA (MUNCUL JIKA DITERIMA) -->
+        <div id="sectionDashboard" style="display: none;">
+            
+            <div class="tab-menu">
+                <button class="tab-btn active" onclick="bukaTab('tabKegiatan', this)">📅 Kegiatan</button>
+                <button class="tab-btn" onclick="bukaTab('tabChat', this)">💬 Ruang Obrolan</button>
+                <button class="tab-btn" onclick="bukaTab('tabKeuangan', this)">💰 Kas</button>
+                <button class="tab-btn" onclick="bukaTab('tabPengurus', this)">👥 Pengurus</button>
+                <button class="tab-btn" onclick="bukaTab('tabPeraturan', this)">📜 Peraturan</button>
+                <button class="tab-btn" onclick="bukaTab('tabProfil', this)">⚙️ Profil</button>
+            </div>
+
+            <!-- TAB 1: KEGIATAN -->
+            <div id="tabKegiatan" class="tab-content card">
+                <h2>📅 Kegiatan & Acara Mendatang</h2>
+                <p class="sub">Jadwal rutinitas dan statistik komunitas IRMA Ahlul Khoer.</p>
+
+                <!-- Ringkasan Statistik Anggota -->
+                <div class="grid-3" style="margin-bottom: 16px;">
+                    <div class="stat-box">
+                        <span style="font-size: 11px; color: #64748b; font-weight: bold;">TOTAL ANGGOTA</span>
+                        <div class="stat-number" style="color: #0284c7;" id="dispJumlahAnggota">0 Orang</div>
+                    </div>
+                    <div class="stat-box" style="background: #f0fdf4; border-color: #86efac;">
+                        <span style="font-size: 11px; color: #166534; font-weight: bold;">STATUS SAYA</span>
+                        <div class="stat-number" style="color: #059669; font-size: 15px; margin-top: 8px;">Aktif</div>
+                    </div>
+                    <div class="stat-box">
+                        <span style="font-size: 11px; color: #64748b; font-weight: bold;">KOMUNITAS</span>
+                        <div class="stat-number" style="color: #0f172a; font-size: 15px; margin-top: 8px;">Ahlul Khoer</div>
+                    </div>
+                </div>
+
+                <div class="stat-box" style="background: #f0fdf4; border-color: #86efac; margin-bottom: 16px; text-align: left;">
+                    <span style="font-size: 11px; color: #166534; font-weight: bold;">ACARA TERDEKAT</span>
+                    <div style="font-size: 16px; font-weight: bold; color: #0f172a; margin-top: 4px;" id="infoJudulAcara">Kajian Rutin & Riung Remaja</div>
+                    <div style="font-size: 13px; color: #059669; margin-top: 2px;" id="infoJadwalAcara">🗓 Setiap Sabtu Malam (Ba'da Isya) di Masjid</div>
+                </div>
+                <button onclick="alert('Pengingat kegiatan telah diatur!')" class="btn-primary">🔔 Set Pengingat Kegiatan</button>
+            </div>
+
+            <!-- TAB 2: RUANG OBROLAN -->
+            <div id="tabChat" class="tab-content card" style="display: none;">
+                <h2>💬 Ruang Obrolan Anggota</h2>
+                <p class="sub">Berdiskusi dan sapa anggota IRMA Ahlul Khoer lainnya.</p>
+
+                <div id="boxPesanChat" style="height: 260px; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; overflow-y: scroll; background: #f8fafc; margin-bottom: 12px; display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Pesan akan dimuat di sini -->
+                </div>
+
+                <form onsubmit="kirimPesanChat(event)" style="display: flex; gap: 8px;">
+                    <input type="text" id="inputPesan" placeholder="Tulis pesan..." required style="margin-top: 0; flex: 1;">
+                    <button type="submit" class="btn-primary" style="margin-top: 0; width: 90px;">Kirim</button>
+                </form>
+            </div>
+
+            <!-- TAB 3: KEUANGAN -->
+            <div id="tabKeuangan" class="tab-content card" style="display: none;">
+                <h2>💰 Transparansi Kas Komunitas</h2>
+                <p class="sub">Laporan keuangan kas terkini IRMA Ahlul Khoer.</p>
+                <div class="grid-2" style="margin-bottom: 20px;">
+                    <div class="stat-box">
+                        <span style="font-size: 12px; color: #64748b; font-weight: bold;">TOTAL SALDO</span>
+                        <div class="stat-number" style="color: #059669;" id="dispSaldo">Rp 0</div>
+                    </div>
+                    <div class="stat-box">
+                        <span style="font-size: 12px; color: #64748b; font-weight: bold;">PENGELUARAN</span>
+                        <div class="stat-number" style="color: #e11d48;" id="dispPengeluaran">Rp 0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: PENGURUS -->
+            <div id="tabPengurus" class="tab-content card" style="display: none;">
+                <h2>👥 Pengurus Komunitas</h2>
+                <p class="sub">Struktur kepengurusan IRMA Ahlul Khoer:</p>
+                <ul style="padding-left: 20px; font-size: 14px; line-height: 2;">
+                    <li><b>Pembina:</b> Ust. Ahmad Ridwan</li>
+                    <li><b>Ketua IRMA:</b> Muhammad Fauzan</li>
+                    <li><b>Sekretaris:</b> Siti Nurhaliza</li>
+                    <li><b>Bendahara:</b> Asep Sunandar</li>
+                </ul>
+            </div>
+
+            <!-- TAB 5: PERATURAN -->
+            <div id="tabPeraturan" class="tab-content card" style="display: none;">
+                <h2>📜 Peraturan Keanggotaan</h2>
+                <ol style="padding-left: 20px; font-size: 13px; line-height: 1.8;">
+                    <li>Menjaga adab islami di lingkungan masjid dan komunitas.</li>
+                    <li>Aktif mengikuti kegiatan rutin yang diselenggarakan IRMA.</li>
+                    <li>Menjaga nama baik IRMA Ahlul Khoer di dalam maupun luar masjid.</li>
+                    <li>Saling menghormati sesama anggota dalam ruang obrolan.</li>
+                </ol>
+            </div>
+
+            <!-- TAB 6: PROFIL -->
+            <div id="tabProfil" class="tab-content card" style="display: none;">
+                <h2>⚙️ Profil Saya</h2>
+                <form onsubmit="simpanProfil(event)">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="profNama" required>
+                    <label>Usia</label>
+                    <input type="number" id="profUsia" required>
+                    <label>No. WhatsApp</label>
+                    <input type="tel" id="profWa" readonly style="background:#f1f5f9;">
+                    <label>Alamat</label>
+                    <textarea id="profAlamat" rows="2" required></textarea>
+                    <button type="submit" class="btn-primary">Simpan Perubahan Profil</button>
+                </form>
+                <div id="pesanProfil"></div>
+                <button onclick="keluarPortal()" class="btn-danger" style="margin-top: 15px;">Keluar dari Portal</button>
+            </div>
+
+        </div>
+
+        <!-- 3. FORMULIR PENDAFTARAN -->
+        <div id="sectionDaftar" class="card">
+            <h2>Pendaftaran Anggota Baru</h2>
+            <p class="sub">Silakan isi formulir di bawah ini jika Anda belum pernah mendaftar.</p>
+            <form onsubmit="prosesPendaftaran(event)">
+                <label>Nama Lengkap</label>
+                <input type="text" id="regNama" placeholder="Nama sesuai identitas" required>
+                <label>Usia (Tahun)</label>
+                <input type="number" id="regUsia" placeholder="Contoh: 17" required>
+                <label>No. WhatsApp</label>
+                <input type="tel" id="regWa" placeholder="Contoh: 081234567890" required>
+                <label>Alamat Lengkap</label>
+                <textarea id="regAlamat" rows="2" placeholder="Alamat rumah / lingkungan RT/RW" required></textarea>
+                <button type="submit" class="btn-primary">Kirim Pendaftaran</button>
+            </form>
+            <div id="pesanDaftar"></div>
+        </div>
+
+    </div>
+
+    <script>
+        let waAktif = '';
+
+        // Proses Pendaftaran Baru
+        function prosesPendaftaran(e) {
+            e.preventDefault();
+            const baru = {
+                nama: document.getElementById('regNama').value.trim(),
+                usia: document.getElementById('regUsia').value.trim(),
+                whatsapp: document.getElementById('regWa').value.trim(),
+                alamat: document.getElementById('regAlamat').value.trim(),
+                status: 'Pending'
+            };
+
+            let daftar = JSON.parse(localStorage.getItem('irma_pendaftar')) || [];
+            if (daftar.some(x => x.whatsapp === baru.whatsapp)) {
+                tampilPesan('pesanDaftar', 'Nomor WhatsApp sudah pernah terdaftar!', 'pesan-warning');
+                return;
+            }
+
+            daftar.unshift(baru);
+            localStorage.setItem('irma_pendaftar', JSON.stringify(daftar));
+            tampilPesan('pesanDaftar', 'Pendaftaran berhasil dikirim! Menunggu persetujuan Admin.', 'pesan-sukses');
+            e.target.reset();
+        }
+
+        // Cek Status / Masuk
+        function prosesCekStatus(e) {
+            e.preventDefault();
+            const wa = document.getElementById('cekWa').value.trim();
+            const daftar = JSON.parse(localStorage.getItem('irma_pendaftar')) || [];
+            const user = daftar.find(x => x.whatsapp === wa);
+
+            if (!user) {
+                tampilPesan('pesanCek', 'Nomor WA belum terdaftar. Silakan isi formulir pendaftaran di bawah.', 'pesan-error');
+            } else if (user.status === 'Pending') {
+                tampilPesan('pesanCek', 'Pendaftaran Anda masih PENDING. Menunggu konfirmasi Admin.', 'pesan-warning');
+            } else if (user.status === 'Ditolak') {
+                tampilPesan('pesanCek', 'Mohon maaf, pendaftaran Anda ditolak oleh Admin.', 'pesan-error');
+            } else if (user.status === 'Diterima') {
+                waAktif = wa;
+                document.getElementById('profNama').value = user.nama;
+                document.getElementById('profUsia').value = user.usia;
+                document.getElementById('profWa').value = user.whatsapp;
+                document.getElementById('profAlamat').value = user.alamat;
+
+                document.getElementById('sectionCek').style.display = 'none';
+                document.getElementById('sectionDaftar').style.display = 'none';
+                document.getElementById('sectionDashboard').style.display = 'block';
+                muatPesanChat();
+                hitungAnggota();
+            }
+        }
+
+        // Simpan Profil
+        function simpanProfil(e) {
+            e.preventDefault();
+            let daftar = JSON.parse(localStorage.getItem('irma_pendaftar')) || [];
+            let idx = daftar.findIndex(x => x.whatsapp === waAktif);
+            if (idx !== -1) {
+                daftar[idx].nama = document.getElementById('profNama').value.trim();
+                daftar[idx].usia = document.getElementById('profUsia').value.trim();
+                daftar[idx].alamat = document.getElementById('profAlamat').value.trim();
+                localStorage.setItem('irma_pendaftar', JSON.stringify(daftar));
+                tampilPesan('pesanProfil', 'Profil berhasil diperbarui!', 'pesan-sukses');
+            }
+        }
+
+        // Fitur Obrolan (Chat)
+        function kirimPesanChat(e) {
+            e.preventDefault();
+            const input = document.getElementById('inputPesan');
+            if (!input.value.trim()) return;
+
+            const daftar = JSON.parse(localStorage.getItem('irma_pendaftar')) || [];
+            const user = daftar.find(x => x.whatsapp === waAktif);
+            const nama = user ? user.nama : 'Anggota';
+
+            const chatBaru = {
+                pengirim: nama,
+                teks: input.value.trim(),
+                waktu: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            let chatList = JSON.parse(localStorage.getItem('irma_chat_komunitas')) || [];
+            chatList.push(chatBaru);
+            localStorage.setItem('irma_chat_komunitas', JSON.stringify(chatList));
+
+            input.value = '';
+            muatPesanChat();
+        }
+
+        function muatPesanChat() {
+            const box = document.getElementById('boxPesanChat');
+            if (!box) return;
+
+            const chatList = JSON.parse(localStorage.getItem('irma_chat_komunitas')) || [];
+            if (chatList.length === 0) {
+                box.innerHTML = '<div style="text-align:center; color:#94a3b8; font-size:13px; margin:auto;">Belum ada percakapan. Mulai obrolan sekarang!</div>';
+                return;
+            }
+
+            box.innerHTML = chatList.map(c => `
+                <div style="background: white; padding: 8px 12px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 13px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                        <b style="color: #0d9488; font-size: 12px;">${c.pengirim}</b>
+                        <span style="font-size: 10px; color: #94a3b8;">${c.waktu}</span>
+                    </div>
+                    <div style="color:#334155; word-break: break-word;">${c.teks}</div>
+                </div>
+            `).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function hitungAnggota() {
+            const daftar = JSON.parse(localStorage.getItem('irma_pendaftar')) || [];
+            const aktif = daftar.filter(x => x.status === 'Diterima').length;
+            const el = document.getElementById('dispJumlahAnggota');
+            if (el) el.textContent = aktif + ' Orang';
+        }
+
+        function bukaTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).style.display = 'block';
+            btn.classList.add('active');
+            if (id === 'tabChat') muatPesanChat();
+        }
+
+        function keluarPortal() {
+            waAktif = '';
+            document.getElementById('sectionDashboard').style.display = 'none';
+            document.getElementById('sectionCek').style.display = 'block';
+            document.getElementById('sectionDaftar').style.display = 'block';
+            document.getElementById('cekWa').value = '';
+        }
+
+        function tampilPesan(id, teks, tipe) {
+            const el = document.getElementById(id);
+            el.className = 'pesan ' + tipe;
+            el.textContent = teks;
+            el.style.display = 'block';
+        }
+
+        // Sync Data Kas & Kegiatan dari Admin saat Halaman Dibuka
+        document.addEventListener('DOMContentLoaded', () => {
+            const kas = JSON.parse(localStorage.getItem('irma_kas'));
+            if (kas) {
+                if(document.getElementById('dispSaldo')) document.getElementById('dispSaldo').textContent = kas.saldo || 'Rp 0';
+                if(document.getElementById('dispPengeluaran')) document.getElementById('dispPengeluaran').textContent = kas.pengeluaran || 'Rp 0';
+            }
+
+            const keg = JSON.parse(localStorage.getItem('irma_kegiatan'));
+            if (keg) {
+                if(document.getElementById('infoJudulAcara')) document.getElementById('infoJudulAcara').textContent = keg.judul || 'Kajian Rutin';
+                if(document.getElementById('infoJadwalAcara')) document.getElementById('infoJadwalAcara').textContent = keg.jadwal || 'Setiap Sabtu Malam';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -168,8 +168,12 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // PASSWORD DEFAULT PERTAMA KALI: admin123
         const passRef = ref(db, 'irma_admin/password');
+
+        // CEK APAKAH SUDAH LOGIN SEBELUMNYA (MEMORI BROWSER)
+        if (localStorage.getItem('is_admin_logged_in') === 'true') {
+            tampilkanDashboard();
+        }
 
         // PROSES LOGIN ADMIN
         window.prosesLoginAdmin = function(e) {
@@ -179,21 +183,26 @@
             get(passRef).then((snapshot) => {
                 let realPass = snapshot.val();
                 if (!realPass) {
-                    // Set default password jika di Firebase belum ada
                     realPass = "admin123";
                     set(passRef, realPass);
                 }
 
                 if (inputPass === realPass) {
-                    document.getElementById('secLoginAdmin').style.display = 'none';
-                    document.getElementById('secDashboardAdmin').style.display = 'block';
-                    document.getElementById('pesanLoginAdmin').textContent = '';
-                    muatDataAdmin();
+                    // SIMPAN STATUS LOGIN DI BROWSER
+                    localStorage.setItem('is_admin_logged_in', 'true');
+                    tampilkanDashboard();
                 } else {
                     document.getElementById('pesanLoginAdmin').textContent = 'Password Admin Salah!';
                 }
             });
         };
+
+        function tampilkanDashboard() {
+            document.getElementById('secLoginAdmin').style.display = 'none';
+            document.getElementById('secDashboardAdmin').style.display = 'block';
+            document.getElementById('pesanLoginAdmin').textContent = '';
+            muatDataAdmin();
+        }
 
         // UBAH PASSWORD ADMIN
         window.ubahPasswordAdmin = function(e) {
@@ -213,7 +222,9 @@
             });
         };
 
+        // KELUAR ADMIN (HAPUS SESI)
         window.logoutAdmin = function() {
+            localStorage.removeItem('is_admin_logged_in');
             document.getElementById('secDashboardAdmin').style.display = 'none';
             document.getElementById('secLoginAdmin').style.display = 'block';
             document.getElementById('inputPassAdmin').value = '';

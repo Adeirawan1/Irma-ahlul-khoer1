@@ -43,6 +43,11 @@
         .chat-sender { font-size: 11px; font-weight: bold; margin-bottom: 2px; opacity: 0.8; }
         .chat-time { font-size: 10px; opacity: 0.7; text-align: right; margin-top: 4px; }
 
+        .galeri-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 12px; }
+        .galeri-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 12px; }
+        .galeri-item img, .galeri-item iframe { width: 100%; height: 200px; border-radius: 6px; object-fit: cover; border: none; }
+        .galeri-title { font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 8px; }
+
         .aturan-list { font-size: 13px; line-height: 1.6; color: #334155; padding-left: 18px; margin-top: 6px; }
         .aturan-list li { margin-bottom: 6px; }
     </style>
@@ -73,6 +78,7 @@
                 <button class="tab-btn active" onclick="window.bukaTab('tabKegiatan', this)">📅 Kegiatan</button>
                 <button class="tab-btn" onclick="window.bukaTab('tabKeuangan', this)">💰 Kas</button>
                 <button class="tab-btn" onclick="window.bukaTab('tabPengurus', this)">👥 Pengurus</button>
+                <button class="tab-btn" onclick="window.bukaTab('tabGaleri', this)">🖼️ Galeri</button>
                 <button class="tab-btn" onclick="window.bukaTab('tabPeraturan', this)">📜 Peraturan</button>
                 <button class="tab-btn" onclick="window.bukaTab('tabChat', this)">💬 Obrolan</button>
                 <button class="tab-btn" onclick="window.bukaTab('tabProfil', this)">⚙️ Profil</button>
@@ -171,7 +177,16 @@
                 </div>
             </div>
 
-            <!-- TAB 4: PERATURAN -->
+            <!-- TAB 4: GALERI FOTO & VIDEO -->
+            <div id="tabGaleri" class="tab-content card" style="display: none;">
+                <h2>🖼️ Galeri Foto & Video Kegiatan</h2>
+                <p class="sub">Dokumentasi kegiatan dan acara IRMA Ahlul Khoer.</p>
+                <div id="boxGaleri" class="galeri-grid">
+                    <div style="text-align: center; font-size: 12px; color: #94a3b8; padding: 20px;">Memuat galeri...</div>
+                </div>
+            </div>
+
+            <!-- TAB 5: PERATURAN -->
             <div id="tabPeraturan" class="tab-content card" style="display: none;">
                 <h2>📜 Peraturan & Tata Tertib IRMA</h2>
                 <p class="sub">Pedoman keanggotaan dan etika organisasi IRMA Ahlul Khoer.</p>
@@ -201,7 +216,7 @@
                 </ul>
             </div>
 
-            <!-- TAB 5: OBROLAN -->
+            <!-- TAB 6: OBROLAN -->
             <div id="tabChat" class="tab-content card" style="display: none;">
                 <h2>💬 Ruang Obrolan Anggota</h2>
                 <p class="sub">Diskusi & obrolan sesama anggota terdaftar secara realtime.</p>
@@ -216,7 +231,7 @@
                 </form>
             </div>
 
-            <!-- TAB 6: PROFIL -->
+            <!-- TAB 7: PROFIL -->
             <div id="tabProfil" class="tab-content card" style="display: none;">
                 <h2>⚙️ Profil Saya</h2>
                 <form onsubmit="window.simpanProfil(event)">
@@ -274,14 +289,12 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // CONFIG TELEGRAM BOT NOTIFIKASI
         const TELEGRAM_BOT_TOKEN = "8922142031:AAHz4w7FhWiLwvNsOArRfTVqSxKGw947DJg"; 
         const TELEGRAM_CHAT_ID = "7751334348"; 
 
         let waAktif = '';
         let namaAktif = '';
 
-        // FUNGSI KIRIM NOTIFIKASI TELEGRAM
         function kirimNotifTelegram(data) {
             const pesan = `🔔 *PENDAFTAR BARU IRMA AHLUL KHOER*\n\n👤 *Nama:* ${data.nama}\n🔢 *Usia:* ${data.usia} Tahun\n📱 *No. WA:* ${data.whatsapp}\n📍 *Alamat:* ${data.alamat}\n\nSilakan buka halaman Admin untuk melakukan ACC!`;
 
@@ -293,10 +306,10 @@
                     text: pesan,
                     parse_mode: 'Markdown'
                 })
-            }).then(res => res.json()).then(res => console.log('Notif Telegram terkirim:', res)).catch(err => console.log('Gagal kirim notif:', err));
+            }).catch(err => console.log('Gagal kirim notif:', err));
         }
 
-        // 1. DENGARKAN DATA PENGURUS REALTIME
+        // 1. PENGURUS
         onValue(ref(db, 'irma_pengurus'), (snapshot) => {
             const data = snapshot.val() || {};
             document.getElementById('dispPembina').textContent = data.pembina || '- Belum diisi -';
@@ -307,7 +320,7 @@
             document.getElementById('dispHumas').textContent = data.humas || '- Belum diisi -';
         });
 
-        // 2. DENGARKAN DATA KAS & ACARA REALTIME
+        // 2. KAS & ACARA
         onValue(ref(db, 'irma_info'), (snapshot) => {
             const data = snapshot.val() || {};
             document.getElementById('dispSaldo').textContent = data.saldo ? 'Rp ' + Number(data.saldo).toLocaleString('id-ID') : 'Rp 0';
@@ -317,7 +330,37 @@
             document.getElementById('dispJadwalAcara').textContent = data.jadwalAcara || '-';
         });
 
-        // 3. DENGARKAN OBROLAN REALTIME
+        // 3. GALERI REALTIME
+        onValue(ref(db, 'irma_galeri'), (snapshot) => {
+            const data = snapshot.val();
+            const box = document.getElementById('boxGaleri');
+            if(!data) {
+                box.innerHTML = '<div style="text-align: center; font-size: 12px; color: #94a3b8; padding: 20px;">Belum ada foto atau video di galeri.</div>';
+                return;
+            }
+            const list = Object.values(data);
+            box.innerHTML = list.map(item => {
+                let mediaElement = '';
+                if(item.tipe === 'video') {
+                    // Mendukung link embed YouTube atau URL video langsung
+                    let embedUrl = item.url;
+                    if(embedUrl.includes('watch?v=')) {
+                        embedUrl = embedUrl.replace('watch?v=', 'embed/');
+                    }
+                    mediaElement = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
+                } else {
+                    mediaElement = `<img src="${item.url}" alt="${item.judul}">`;
+                }
+                return `
+                    <div class="galeri-item">
+                        ${mediaElement}
+                        <div class="galeri-title">${item.judul}</div>
+                    </div>
+                `;
+            }).join('');
+        });
+
+        // 4. OBROLAN
         onValue(ref(db, 'irma_chat'), (snapshot) => {
             const data = snapshot.val();
             const box = document.getElementById('boxObrolan');
@@ -339,7 +382,6 @@
             box.scrollTop = box.scrollHeight;
         });
 
-        // KIRIM PESAN CHAT
         window.kirimPesanChat = function(e) {
             e.preventDefault();
             const input = document.getElementById('inputPesanChat');
@@ -357,7 +399,7 @@
             });
         };
 
-        // 4. PROSES PENDAFTARAN ANGGOTA
+        // 5. PENDAFTARAN
         window.prosesPendaftaran = function(e) {
             e.preventDefault();
             const cleanWa = document.getElementById('regWa').value.trim().replace(/[^0-9]/g, '');
@@ -376,17 +418,14 @@
                 } else {
                     set(userRef, dataBaru).then(() => {
                         tampilPesan('pesanDaftar', 'Pendaftaran Berhasil! Menunggu konfirmasi Admin.', 'pesan-sukses');
-                        
-                        // KIRIM NOTIFIKASI KE TELEGRAM ADMIN
                         kirimNotifTelegram(dataBaru);
-                        
                         e.target.reset();
                     });
                 }
             });
         };
 
-        // 5. CEK STATUS / LOGIN
+        // 6. CEK STATUS / LOGIN
         window.prosesCekStatus = function(e) {
             e.preventDefault();
             const cleanWa = document.getElementById('cekWa').value.trim().replace(/[^0-9]/g, '');
@@ -416,7 +455,6 @@
             });
         };
 
-        // SIMPAN PROFIL
         window.simpanProfil = function(e) {
             e.preventDefault();
             if(!waAktif) return;

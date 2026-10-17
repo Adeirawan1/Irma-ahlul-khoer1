@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin - IRMA AHLUL KHOER</title>
+    <title>ADMIN PANEL - IRMA AHLUL KHOER</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
         body { background-color: #f1f5f9; color: #334155; padding-bottom: 50px; }
         nav { background-color: #0f172a; color: white; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
         .logo { font-weight: bold; font-size: 18px; color: #38bdf8; text-decoration: none; }
-        .badge-admin { background: #ef4444; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
         .container { max-width: 800px; margin: 24px auto; padding: 0 16px; }
         .card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px; border: 1px solid #e2e8f0; }
         h2 { color: #0f172a; font-size: 20px; margin-bottom: 6px; }
@@ -20,154 +19,129 @@
         .btn-primary { background-color: #0d9488; }
         .btn-blue { background-color: #0284c7; }
         .btn-danger { background-color: #ef4444; }
-        .btn-sm { padding: 6px 12px; font-size: 12px; width: auto; margin-top: 0; }
-        .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 6px; }
-        .pesan-sukses { background: #d1fae5; color: #065f46; }
-        .pesan-error { background: #ffe4e6; color: #9f1239; }
-        
+        .btn-warning { background-color: #f59e0b; color: white; }
+        .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 6px; display: none; }
+        .pesan-sukses { background: #d1fae5; color: #065f46; display: block; }
+        .pesan-error { background: #ffe4e6; color: #9f1239; display: block; }
         .tab-menu { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
         .tab-btn { padding: 8px 14px; background: none; border: none; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 6px; white-space: nowrap; width: auto; margin: 0; }
         .tab-btn.active { background: #0f172a; color: white; }
-
-        .item-list { padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .item-info { font-size: 13px; }
-        .item-info strong { font-size: 15px; color: #0f172a; display: block; }
-
-        .galeri-admin-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 16px; }
-        .galeri-admin-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .galeri-preview { display: flex; align-items: center; gap: 12px; }
-        .galeri-preview img { width: 60px; height: 60px; border-radius: 6px; object-fit: cover; }
-        .galeri-badge { font-size: 10px; font-weight: bold; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; color: white; display: inline-block; margin-bottom: 4px; }
-        .badge-foto { background: #0284c7; }
-        .badge-video { background: #d97706; }
+        
+        .list-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; margin-top: 12px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+        .list-info { font-size: 13px; color: #334155; }
+        .list-info b { color: #0f172a; display: block; font-size: 14px; margin-bottom: 2px; }
+        .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; }
+        .badge-pending { background: #fef3c7; color: #92400e; }
+        .badge-diterima { background: #d1fae5; color: #065f46; }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="admin.html" class="logo">🕌 IRMA AHLUL KHOER</a>
-        <span class="badge-admin">PANEL ADMIN</span>
+        <a href="admin.html" class="logo">⚙️ ADMIN PANEL IRMA</a>
+        <button onclick="window.keluarAdmin()" class="btn-danger" style="width: auto; margin: 0; padding: 6px 12px; font-size: 12px;">Keluar</button>
     </nav>
 
     <div class="container">
 
         <!-- FORM LOGIN ADMIN -->
-        <div id="sectionLogin" class="card">
-            <h2>Masuk Admin</h2>
-            <p class="sub">Masukkan kata sandi pengurus untuk mengakses panel kendali.</p>
+        <div id="sectionLoginAdmin" class="card">
+            <h2>Masuk Panel Admin</h2>
+            <p class="sub">Masukkan PIN Keamanan untuk mengakses dashboard pengurus.</p>
             <form onsubmit="window.prosesLoginAdmin(event)">
-                <label>Kata Sandi Admin</label>
-                <input type="password" id="passAdmin" placeholder="Masukkan password admin" required>
-                <button type="submit" class="btn-blue">Masuk Panel Admin</button>
+                <label>PIN Admin</label>
+                <input type="password" id="pinAdmin" placeholder="Masukkan PIN" required>
+                <button type="submit" class="btn-blue">Masuk</button>
             </form>
-            <div id="pesanLogin"></div>
+            <div id="pesanLogin" class="pesan"></div>
         </div>
 
         <!-- DASHBOARD ADMIN -->
-        <div id="sectionAdminDashboard" style="display: none;">
-            
+        <div id="sectionDashboardAdmin" style="display: none;">
+
             <div class="tab-menu">
-                <button class="tab-btn active" onclick="window.bukaTab('tabPendaftar', this)">📋 Pendaftar</button>
-                <button class="tab-btn" onclick="window.bukaTab('tabKelolaGaleri', this)">🖼️ Galeri</button>
-                <button class="tab-btn" onclick="window.bukaTab('tabKelolaInfo', this)">📢 Acara & Kas</button>
-                <button class="tab-btn" onclick="window.bukaTab('tabKelolaPengurus', this)">👥 Pengurus</button>
+                <button class="tab-btn active" onclick="window.bukaTabAdmin('tabPendaftar', this)">👥 Pendaftar</button>
+                <button class="tab-btn" onclick="window.bukaTabAdmin('tabKelolaPengurus', this)">📝 Pengurus</button>
+                <button class="tab-btn" onclick="window.bukaTabAdmin('tabKelolaKasAcara', this)">💰 Kas & Acara</button>
+                <button class="tab-btn" onclick="window.bukaTabAdmin('tabKelolaGaleri', this)">🖼️ Galeri</button>
             </div>
 
-            <!-- TAB 1: KELOLA PENDAFTAR -->
+            <!-- TAB 1: PERSETUJUAN PENDAFTAR -->
             <div id="tabPendaftar" class="tab-content card">
-                <h2>📋 Konfirmasi & Data Anggota</h2>
-                <p class="sub">Setujui (ACC) atau kelola data pendaftaran anggota baru.</p>
-                <div id="listPendaftar">
-                    <div style="text-align: center; font-size: 12px; color: #94a3b8; padding: 12px;">Memuat data...</div>
+                <h2>Kelola Pendaftaran Anggota</h2>
+                <p class="sub">Daftar calon anggota yang menunggu konfirmasi persetujuan.</p>
+                <div id="boxDaftarAdmin">
+                    <div style="text-align: center; color: #94a3b8; font-size: 13px; padding: 20px;">Memuat data pendaftar...</div>
                 </div>
             </div>
 
-            <!-- TAB 2: KELOLA GALERI (FOTO & VIDEO) -->
-            <div id="tabKelolaGaleri" class="tab-content card" style="display: none;">
-                <h2>🖼️ Tambah Foto / Video Galeri</h2>
-                <p class="sub">Bagikan dokumentasi kegiatan masjid untuk anggota portal.</p>
-                
-                <form onsubmit="window.tambahGaleri(event)">
-                    <label>Judul Kegiatan / Dokumentasi</label>
-                    <input type="text" id="galJudul" placeholder="Contoh: Kajian Rutin Malam Jumat" required>
+            <!-- TAB 2: KELOLA PENGURUS -->
+            <div id="tabKelolaPengurus" class="tab-content card" style="display: none;">
+                <h2>Struktur Kepengurusan</h2>
+                <p class="sub">Perbarui nama-nama pengurus IRMA Ahlul Khoer.</p>
+                <form onsubmit="window.simpanPengurus(event)">
+                    <label>Pembina / Penasihat</label>
+                    <input type="text" id="inpPembina" required>
+                    <label>Ketua IRMA</label>
+                    <input type="text" id="inpKetua" required>
+                    <label>Wakil Ketua</label>
+                    <input type="text" id="inpWakil" required>
+                    <label>Sekretaris</label>
+                    <input type="text" id="inpSekretaris" required>
+                    <label>Bendahara</label>
+                    <input type="text" id="inpBendahara" required>
+                    <label>Humas / Acara</label>
+                    <input type="text" id="inpHumas" required>
+                    <button type="submit" class="btn-primary">Simpan Pengurus</button>
+                </form>
+                <div id="pesanPengurus" class="pesan"></div>
+            </div>
+
+            <!-- TAB 3: KAS & ACARA -->
+            <div id="tabKelolaKasAcara" class="tab-content card" style="display: none;">
+                <h2>Keuangan & Informasi Acara</h2>
+                <p class="sub">Perbarui data saldo kas, pengeluaran, serta jadwal kegiatan.</p>
+                <form onsubmit="window.simpanKasAcara(event)">
+                    <label>Total Saldo Kas (Rp)</label>
+                    <input type="number" id="inpSaldo" required>
+                    <label>Total Pengeluaran Kas (Rp)</label>
+                    <input type="number" id="inpPengeluaran" required>
+                    <label>Catatan / Keterangan Kas</label>
+                    <input type="text" id="inpKetSaldo" placeholder="Contoh: Iuran bulan Oktober">
                     
+                    <label style="margin-top: 20px;">Judul Acara Terdekat</label>
+                    <input type="text" id="inpJudulAcara" required>
+                    <label>Jadwal & Waktu Acara</label>
+                    <input type="text" id="inpJadwalAcara" placeholder="Hari, tanggal, jam & tempat" required>
+                    
+                    <button type="submit" class="btn-primary">Simpan Info Kas & Acara</button>
+                </form>
+                <div id="pesanKasAcara" class="pesan"></div>
+            </div>
+
+            <!-- TAB 4: KELOLA GALERI -->
+            <div id="tabKelolaGaleri" class="tab-content card" style="display: none;">
+                <h2>Kelola Galeri Foto & Video</h2>
+                <p class="sub">Tambahkan dokumentasi kegiatan (Gunakan Direct Link Google Drive untuk foto).</p>
+                <form onsubmit="window.tambahGaleri(event)">
+                    <label>Judul Dokumentasi</label>
+                    <input type="text" id="galJudul" placeholder="Contoh: Kajian Rutin Malam Minggu" required>
                     <label>Tipe Media</label>
-                    <select id="galTipe" required>
+                    <select id="galTipe">
                         <option value="foto">📷 Foto (URL / Link Gambar)</option>
                         <option value="video">🎥 Video (URL YouTube)</option>
                     </select>
-
                     <label>URL / Link Media</label>
-                    <input type="url" id="galUrl" placeholder="Contoh Foto: https://i.imgur.com/xxx.jpg | Video: https://www.youtube.com/watch?v=xxx" required>
-                    
+                    <input type="text" id="galUrl" placeholder="Contoh Foto: https://lh3.googleusercontent.com/d/xxx | Video: https://www.youtube.com/watch?v=xxx" required>
                     <button type="submit" class="btn-primary">Unggah ke Galeri</button>
                 </form>
-                <div id="pesanGaleri"></div>
+                <div id="pesanGaleri" class="pesan"></div>
 
-                <h3 style="margin-top: 24px; font-size: 16px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">Daftar Galeri Aktif</h3>
-                <div id="listGaleriAdmin" class="galeri-admin-grid">
-                    <div style="text-align: center; font-size: 12px; color: #94a3b8; padding: 12px;">Memuat galeri...</div>
+                <h3 style="margin-top: 24px; font-size: 15px; color: #0f172a;">Daftar Galeri Tersimpan</h3>
+                <div id="boxDaftarGaleri">
+                    <div style="text-align: center; color: #94a3b8; font-size: 13px; padding: 16px;">Memuat galeri...</div>
                 </div>
             </div>
-
-            <!-- TAB 3: KELOLA ACARA & KAS -->
-            <div id="tabKelolaInfo" class="tab-content card" style="display: none;">
-                <h2>📢 Update Acara & Keuangan Kas</h2>
-                <p class="sub">Perbarui saldo kas dan jadwal acara mendatang.</p>
-
-                <form onsubmit="window.simpanInfo(event)">
-                    <h3 style="font-size: 14px; color: #0284c7; margin-bottom: 8px;">1. Informasi Kas Komunitas</h3>
-                    <label>Total Saldo Kas (Rp)</label>
-                    <input type="number" id="admSaldo" placeholder="Contoh: 1500000" required>
-                    
-                    <label>Total Pengeluaran (Rp)</label>
-                    <input type="number" id="admPengeluaran" placeholder="Contoh: 250000" required>
-
-                    <label>Catatan / Keterangan Kas</label>
-                    <textarea id="admKetSaldo" rows="2" placeholder="Catatan penggunaan kas terakhir..."></textarea>
-
-                    <h3 style="font-size: 14px; color: #0284c7; margin-top: 16px; margin-bottom: 8px;">2. Acara Terdekat</h3>
-                    <label>Judul Acara / Kegiatan</label>
-                    <input type="text" id="admJudulAcara" placeholder="Contoh: Peringatan Isra Miraj" required>
-
-                    <label>Jadwal / Waktu Pelaksanaan</label>
-                    <input type="text" id="admJadwalAcara" placeholder="Contoh: Sabtu, 20 Oktober 2026 - Jam 19.30 WIB" required>
-
-                    <button type="submit" class="btn-primary" style="margin-top: 20px;">Simpan Perubahan Info & Kas</button>
-                </form>
-                <div id="pesanInfo"></div>
-            </div>
-
-            <!-- TAB 4: KELOLA PENGURUS -->
-            <div id="tabKelolaPengurus" class="tab-content card" style="display: none;">
-                <h2>👥 Update Struktur Pengurus</h2>
-                <p class="sub">Perbarui daftar pengurus organisasi IRMA Ahlul Khoer.</p>
-
-                <form onsubmit="window.simpanPengurus(event)">
-                    <label>Pembina / Penasihat</label>
-                    <input type="text" id="admPembina" placeholder="Nama Pembina" required>
-
-                    <label>Ketua IRMA</label>
-                    <input type="text" id="admKetua" placeholder="Nama Ketua" required>
-
-                    <label>Wakil Ketua</label>
-                    <input type="text" id="admWakil" placeholder="Nama Wakil" required>
-
-                    <label>Sekretaris</label>
-                    <input type="text" id="admSekretaris" placeholder="Nama Sekretaris" required>
-
-                    <label>Bendahara</label>
-                    <input type="text" id="admBendahara" placeholder="Nama Bendahara" required>
-
-                    <label>Humas / Acara</label>
-                    <input type="text" id="admHumas" placeholder="Nama Humas" required>
-
-                    <button type="submit" class="btn-primary">Simpan Susunan Pengurus</button>
-                </form>
-                <div id="pesanPengurus"></div>
-            </div>
-
-            <button onclick="window.keluarAdmin()" class="btn-danger" style="margin-top: 20px;">Keluar Panel Admin</button>
 
         </div>
 
@@ -176,7 +150,7 @@
     <!-- FIREBASE MODULE SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, set, get, push, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, remove, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-f7pwEuIQeRFyxLFN3tv9lyNB1487ST8",
@@ -191,172 +165,172 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const PASS_ADMIN = "adminirma";
+        const PIN_RAHASIA = "123456"; // Ganti PIN admin jika diinginkan
 
-        // CEK SESI LOGIN SAAT HALAMAN DIBUKA
+        // CEK SESI PERSISTEN ADMIN SAAT HALAMAN DIBUAT
         window.addEventListener('DOMContentLoaded', () => {
-            const isLogged = localStorage.getItem('irma_admin_session');
-            if (isLogged === 'true') {
-                document.getElementById('sectionLogin').style.display = 'none';
-                document.getElementById('sectionAdminDashboard').style.display = 'block';
-                muatSemuaDataAdmin();
+            const savedAdmin = localStorage.getItem('irma_admin_auth');
+            if (savedAdmin === 'true') {
+                bukaDashboardAdmin();
             }
         });
 
         window.prosesLoginAdmin = function(e) {
             e.preventDefault();
-            const pass = document.getElementById('passAdmin').value;
-            if(pass === PASS_ADMIN) {
-                localStorage.setItem('irma_admin_session', 'true'); // SIMPAN SESI
-                document.getElementById('sectionLogin').style.display = 'none';
-                document.getElementById('sectionAdminDashboard').style.display = 'block';
-                muatSemuaDataAdmin();
+            const pin = document.getElementById('pinAdmin').value.trim();
+            if(pin === PIN_RAHASIA) {
+                localStorage.setItem('irma_admin_auth', 'true'); // SIMPAN SESI ADMIN
+                bukaDashboardAdmin();
             } else {
-                tampilPesan('pesanLogin', 'Password Admin Salah!', 'pesan-error');
+                tampilPesan('pesanLogin', 'PIN Admin salah!', 'pesan-error');
             }
         };
 
-        function muatSemuaDataAdmin() {
-            // 1. DATA PENDAFTAR
+        function bukaDashboardAdmin() {
+            document.getElementById('sectionLoginAdmin').style.display = 'none';
+            document.getElementById('sectionDashboardAdmin').style.display = 'block';
+            muatDataAdmin();
+        }
+
+        window.keluarAdmin = function() {
+            localStorage.removeItem('irma_admin_auth'); // HAPUS SESI ADMIN
+            document.getElementById('sectionDashboardAdmin').style.display = 'none';
+            document.getElementById('sectionLoginAdmin').style.display = 'block';
+            document.getElementById('pinAdmin').value = '';
+        };
+
+        function muatDataAdmin() {
+            // 1. Pendaftar
             onValue(ref(db, 'irma_pendaftar'), (snapshot) => {
                 const data = snapshot.val();
-                const container = document.getElementById('listPendaftar');
+                const box = document.getElementById('boxDaftarAdmin');
                 if(!data) {
-                    container.innerHTML = '<div style="text-align: center; font-size: 12px; color: #94a3b8; padding: 12px;">Belum ada pendaftar.</div>';
+                    box.innerHTML = '<div style="text-align: center; color: #94a3b8; font-size: 13px; padding: 20px;">Belum ada pendaftar.</div>';
                     return;
                 }
-                const entries = Object.entries(data);
-                container.innerHTML = entries.map(([key, val]) => `
-                    <div class="item-list">
-                        <div class="item-info">
-                            <strong>${val.nama} (${val.usia} Thn)</strong>
-                            <div>📱 ${val.whatsapp} | 📍 ${val.alamat}</div>
-                            <div style="margin-top: 4px; font-weight: bold; color: ${val.status === 'Diterima' ? '#059669' : '#d97706'}">
-                                Status: ${val.status}
-                            </div>
+                box.innerHTML = Object.entries(data).map(([wa, val]) => `
+                    <div class="list-card">
+                        <div class="list-info">
+                            <b>${val.nama}</b>
+                            Usia: ${val.usia} Thn | WA: ${val.whatsapp}<br>
+                            Alamat: ${val.alamat}<br>
+                            Status: <span class="badge ${val.status === 'Diterima' ? 'badge-diterima' : 'badge-pending'}">${val.status}</span>
                         </div>
-                        <div style="display: flex; gap: 6px; flex-direction: column;">
-                            ${val.status === 'Pending' ? `<button onclick="window.accMember('${key}')" class="btn-blue btn-sm">ACC</button>` : ''}
-                            <button onclick="window.hapusMember('${key}')" class="btn-danger btn-sm">Hapus</button>
+                        <div style="display: flex; flex-direction: column; gap: 6px;">
+                            ${val.status === 'Pending' ? `<button onclick="window.ubahStatus('${wa}', 'Diterima')" class="btn-primary" style="margin:0; padding:6px 12px; font-size:12px;">ACC</button>` : ''}
+                            <button onclick="window.hapusPendaftar('${wa}')" class="btn-danger" style="margin:0; padding:6px 12px; font-size:12px;">Hapus</button>
                         </div>
                     </div>
                 `).join('');
             });
 
-            // 2. DATA INFO & KAS
-            get(ref(db, 'irma_info')).then((snapshot) => {
+            // 2. Form Pengurus
+            onValue(ref(db, 'irma_pengurus'), (snapshot) => {
                 const data = snapshot.val() || {};
-                document.getElementById('admSaldo').value = data.saldo || 0;
-                document.getElementById('admPengeluaran').value = data.pengeluaran || 0;
-                document.getElementById('admKetSaldo').value = data.ketSaldo || '';
-                document.getElementById('admJudulAcara').value = data.judulAcara || '';
-                document.getElementById('admJadwalAcara').value = data.jadwalAcara || '';
+                document.getElementById('inpPembina').value = data.pembina || '';
+                document.getElementById('inpKetua').value = data.ketua || '';
+                document.getElementById('inpWakil').value = data.wakil || '';
+                document.getElementById('inpSekretaris').value = data.sekretaris || '';
+                document.getElementById('inpBendahara').value = data.bendahara || '';
+                document.getElementById('inpHumas').value = data.humas || '';
             });
 
-            // 3. DATA PENGURUS
-            get(ref(db, 'irma_pengurus')).then((snapshot) => {
+            // 3. Form Kas & Acara
+            onValue(ref(db, 'irma_info'), (snapshot) => {
                 const data = snapshot.val() || {};
-                document.getElementById('admPembina').value = data.pembina || '';
-                document.getElementById('admKetua').value = data.ketua || '';
-                document.getElementById('admWakil').value = data.wakil || '';
-                document.getElementById('admSekretaris').value = data.sekretaris || '';
-                document.getElementById('admBendahara').value = data.bendahara || '';
-                document.getElementById('admHumas').value = data.humas || '';
+                document.getElementById('inpSaldo').value = data.saldo || '';
+                document.getElementById('inpPengeluaran').value = data.pengeluaran || '';
+                document.getElementById('inpKetSaldo').value = data.ketSaldo || '';
+                document.getElementById('inpJudulAcara').value = data.judulAcara || '';
+                document.getElementById('inpJadwalAcara').value = data.jadwalAcara || '';
             });
 
-            // 4. DATA GALERI
+            // 4. Daftar Galeri Admin
             onValue(ref(db, 'irma_galeri'), (snapshot) => {
                 const data = snapshot.val();
-                const container = document.getElementById('listGaleriAdmin');
+                const box = document.getElementById('boxDaftarGaleri');
                 if(!data) {
-                    container.innerHTML = '<div style="text-align: center; font-size: 12px; color: #94a3b8; padding: 12px;">Belum ada media di galeri.</div>';
+                    box.innerHTML = '<div style="text-align: center; color: #94a3b8; font-size: 13px; padding: 16px;">Belum ada galeri.</div>';
                     return;
                 }
-                const entries = Object.entries(data);
-                container.innerHTML = entries.map(([key, val]) => `
-                    <div class="galeri-admin-card">
-                        <div class="galeri-preview">
-                            ${val.tipe === 'foto' ? `<img src="${val.url}" alt="preview">` : `<div style="width:60px; height:60px; background:#0f172a; color:white; display:flex; align-items:center; justify-content:center; border-radius:6px; font-size:20px;">🎥</div>`}
-                            <div>
-                                <span class="galeri-badge ${val.tipe === 'foto' ? 'badge-foto' : 'badge-video'}">${val.tipe}</span>
-                                <div style="font-weight: bold; font-size: 14px; color: #0f172a;">${val.judul}</div>
-                            </div>
+                box.innerHTML = Object.entries(data).map(([id, val]) => `
+                    <div class="list-card">
+                        <div class="list-info">
+                            <b>${val.judul}</b>
+                            <span style="font-size: 11px; color: #0284c7; text-transform: uppercase;">[${val.tipe}]</span>
                         </div>
-                        <button onclick="window.hapusGaleri('${key}')" class="btn-danger btn-sm">Hapus</button>
+                        <button onclick="window.hapusGaleri('${id}')" class="btn-danger" style="margin:0; padding:6px 12px; font-size:12px; width:auto;">Hapus</button>
                     </div>
                 `).join('');
             });
         }
 
-        window.accMember = function(key) {
-            set(ref(db, `irma_pendaftar/${key}/status`), 'Diterima');
+        window.ubahStatus = function(wa, statusBaru) {
+            const refUser = ref(db, 'irma_pendaftar/' + wa);
+            onValue(refUser, (snapshot) => {
+                const val = snapshot.val();
+                if(val) {
+                    val.status = statusBaru;
+                    set(refUser, val);
+                }
+            }, { onlyOnce: true });
         };
 
-        window.hapusMember = function(key) {
-            if(confirm('Yakin ingin menghapus anggota ini?')) {
-                remove(ref(db, `irma_pendaftar/${key}`));
+        window.hapusPendaftar = function(wa) {
+            if(confirm('Yakin ingin menghapus pendaftar ini?')) {
+                remove(ref(db, 'irma_pendaftar/' + wa));
             }
-        };
-
-        window.tambahGaleri = function(e) {
-            e.preventDefault();
-            const judul = document.getElementById('galJudul').value.trim();
-            const tipe = document.getElementById('galTipe').value;
-            let url = document.getElementById('galUrl').value.trim();
-
-            if(!judul || !url) return;
-
-            push(ref(db, 'irma_galeri'), {
-                judul: judul,
-                tipe: tipe,
-                url: url
-            }).then(() => {
-                tampilPesan('pesanGaleri', 'Media berhasil ditambahkan ke galeri!', 'pesan-sukses');
-                e.target.reset();
-            });
-        };
-
-        window.hapusGaleri = function(key) {
-            if(confirm('Yakin ingin menghapus media ini dari galeri?')) {
-                remove(ref(db, `irma_galeri/${key}`));
-            }
-        };
-
-        window.simpanInfo = function(e) {
-            e.preventDefault();
-            set(ref(db, 'irma_info'), {
-                saldo: document.getElementById('admSaldo').value,
-                pengeluaran: document.getElementById('admPengeluaran').value,
-                ketSaldo: document.getElementById('admKetSaldo').value.trim(),
-                judulAcara: document.getElementById('admJudulAcara').value.trim(),
-                jadwalAcara: document.getElementById('admJadwalAcara').value.trim()
-            }).then(() => {
-                tampilPesan('pesanInfo', 'Informasi Acara & Kas Berhasil Diperbarui!', 'pesan-sukses');
-            });
         };
 
         window.simpanPengurus = function(e) {
             e.preventDefault();
             set(ref(db, 'irma_pengurus'), {
-                pembina: document.getElementById('admPembina').value.trim(),
-                ketua: document.getElementById('admKetua').value.trim(),
-                wakil: document.getElementById('admWakil').value.trim(),
-                sekretaris: document.getElementById('admSekretaris').value.trim(),
-                bendahara: document.getElementById('admBendahara').value.trim(),
-                humas: document.getElementById('admHumas').value.trim()
+                pembina: document.getElementById('inpPembina').value.trim(),
+                ketua: document.getElementById('inpKetua').value.trim(),
+                wakil: document.getElementById('inpWakil').value.trim(),
+                sekretaris: document.getElementById('inpSekretaris').value.trim(),
+                bendahara: document.getElementById('inpBendahara').value.trim(),
+                humas: document.getElementById('inpHumas').value.trim()
             }).then(() => {
-                tampilPesan('pesanPengurus', 'Struktur Pengurus Berhasil Diperbarui!', 'pesan-sukses');
+                tampilPesan('pesanPengurus', 'Data pengurus berhasil diperbarui!', 'pesan-sukses');
             });
         };
 
-        window.keluarAdmin = function() {
-            localStorage.removeItem('irma_admin_session'); // HAPUS SESI
-            document.getElementById('sectionAdminDashboard').style.display = 'none';
-            document.getElementById('sectionLogin').style.display = 'block';
-            document.getElementById('passAdmin').value = '';
+        window.simpanKasAcara = function(e) {
+            e.preventDefault();
+            set(ref(db, 'irma_info'), {
+                saldo: document.getElementById('inpSaldo').value.trim(),
+                pengeluaran: document.getElementById('inpPengeluaran').value.trim(),
+                ketSaldo: document.getElementById('inpKetSaldo').value.trim(),
+                judulAcara: document.getElementById('inpJudulAcara').value.trim(),
+                jadwalAcara: document.getElementById('inpJadwalAcara').value.trim()
+            }).then(() => {
+                tampilPesan('pesanKasAcara', 'Data kas & acara berhasil diperbarui!', 'pesan-sukses');
+            });
         };
 
-        window.bukaTab = function(id, btn) {
+        window.tambahGaleri = function(e) {
+            e.preventDefault();
+            const dataBaru = {
+                judul: document.getElementById('galJudul').value.trim(),
+                tipe: document.getElementById('galTipe').value,
+                url: document.getElementById('galUrl').value.trim()
+            };
+
+            push(ref(db, 'irma_galeri'), dataBaru).then(() => {
+                tampilPesan('pesanGaleri', 'Dokumentasi berhasil ditambahkan ke galeri!', 'pesan-sukses');
+                document.getElementById('galJudul').value = '';
+                document.getElementById('galUrl').value = '';
+            });
+        };
+
+        window.hapusGaleri = function(id) {
+            if(confirm('Hapus dokumentasi ini dari galeri?')) {
+                remove(ref(db, 'irma_galeri/' + id));
+            }
+        };
+
+        window.bukaTabAdmin = function(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).style.display = 'block';
@@ -367,8 +341,6 @@
             const el = document.getElementById(id);
             el.className = 'pesan ' + tipe;
             el.textContent = teks;
-            el.style.display = 'block';
-            setTimeout(() => { el.style.display = 'none'; }, 4000);
         }
     </script>
 </body>

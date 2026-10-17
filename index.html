@@ -1,188 +1,280 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRMA AHLUL KHOER - Ikatan Remaja Masjid</title>
+    <title>IRMA AHLUL KHOER - Portal Remaja Masjid</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body { background-color: #f1f5f9; color: #334155; padding-bottom: 50px; }
+        nav { background-color: #0f172a; color: white; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+        .logo { font-weight: bold; font-size: 18px; color: #38bdf8; text-decoration: none; }
+        .container { max-width: 800px; margin: 24px auto; padding: 0 16px; }
+        .card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px; border: 1px solid #e2e8f0; }
+        h2 { color: #0f172a; font-size: 20px; margin-bottom: 6px; }
+        h3 { color: #0284c7; font-size: 15px; margin: 14px 0 6px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+        p.sub { color: #64748b; font-size: 13px; margin-bottom: 18px; }
+        label { display: block; margin-top: 12px; font-weight: 600; font-size: 13px; color: #1e293b; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
+        button { width: 100%; padding: 12px; margin-top: 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; }
+        .btn-primary { background-color: #0d9488; }
+        .btn-blue { background-color: #0284c7; }
+        .btn-danger { background-color: #ef4444; }
+        .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 6px; }
+        .pesan-sukses { background: #d1fae5; color: #065f46; }
+        .pesan-error { background: #ffe4e6; color: #9f1239; }
+        .pesan-warning { background: #fef3c7; color: #92400e; }
+        .tab-menu { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
+        .tab-btn { padding: 8px 14px; background: none; border: none; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 6px; white-space: nowrap; width: auto; margin: 0; }
+        .tab-btn.active { background: #0f172a; color: white; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .stat-box { padding: 16px; border-radius: 8px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; }
+        .stat-number { font-size: 18px; font-weight: bold; margin-top: 4px; }
+        .list-pengurus { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .item-pengurus { padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .jabatan-title { font-size: 12px; font-weight: bold; color: #0284c7; text-transform: uppercase; }
+        .nama-val { font-size: 15px; font-weight: bold; color: #0f172a; }
+        
+        .chat-box { height: 320px; overflow-y: auto; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+        .chat-item { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; }
+        .chat-item.me { align-self: flex-end; background: #0284c7; color: white; border-bottom-right-radius: 2px; }
+        .chat-item.other { align-self: flex-start; background: #e2e8f0; color: #0f172a; border-bottom-left-radius: 2px; }
+        .chat-sender { font-size: 11px; font-weight: bold; margin-bottom: 2px; opacity: 0.8; }
+        .chat-time { font-size: 10px; opacity: 0.7; text-align: right; margin-top: 4px; }
 
-    <!-- DUKUNGAN APLIKASI (PWA) -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f172a">
-    <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1dYiVQR43RQIPFWqQZH2vbmBg3pQz9u2X">
+        .galeri-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 12px; }
+        .galeri-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 12px; }
+        .galeri-item img, .galeri-item iframe { width: 100%; height: 200px; border-radius: 6px; object-fit: cover; border: none; }
+        .galeri-title { font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 8px; }
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#0d9488',
-                        secondary: '#0F172A',
-                        accent: '#f59e0b',
-                    }
-                }
-            }
-        }
-    </script>
+        .aturan-list { font-size: 13px; line-height: 1.6; color: #334155; padding-left: 18px; margin-top: 6px; }
+        .aturan-list li { margin-bottom: 6px; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+<body>
 
-    <!-- Navigasi -->
-    <nav class="fixed w-full bg-white/90 backdrop-blur-md z-50 border-b border-slate-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-bold text-xl shadow">
-                        AK
-                    </div>
-                    <span class="font-bold text-lg text-slate-900 tracking-tight">IRMA AHLUL KHOER</span>
-                </div>
-                <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-600">
-                    <a href="#beranda" class="hover:text-primary transition">Beranda</a>
-                    <a href="#tentang" class="hover:text-primary transition">Tentang</a>
-                    <a href="#kegiatan" class="hover:text-primary transition">Kegiatan</a>
-                    <a href="#galeri" class="hover:text-primary transition">Galeri</a>
-                    <a href="#daftar" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition shadow-sm">Bergabung</a>
-                </div>
-            </div>
-        </div>
+    <nav>
+        <a href="index.html" class="logo">🕌 IRMA AHLUL KHOER</a>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="beranda" class="pt-32 pb-20 bg-gradient-to-b from-teal-50 to-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <span class="text-primary font-semibold text-sm uppercase tracking-wider bg-teal-100/60 px-3 py-1 rounded-full">Selamat Datang</span>
-            <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 mt-4 tracking-tight leading-tight">
-                Membangun Generasi Muda <br/><span class="text-primary">Berakhlak & Bermanfaat</span>
-            </h1>
-            <p class="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
-                Wadah silaturahmi, kreativitas, dan syiar Islam remaja Masjid Ahlul Khoer. Bersama mengabdi untuk agama, masyarakat, dan bangsa.
-            </p>
-            <div class="mt-8 flex justify-center gap-4">
-                <a href="#daftar" class="bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-700 shadow-md transition">Daftar Anggota</a>
-                <a href="#kegiatan" class="bg-white text-slate-700 border border-slate-200 px-6 py-3 rounded-lg font-semibold hover:bg-slate-50 transition">Lihat Agenda</a>
-            </div>
-        </div>
-    </section>
+    <div class="container">
 
-    <!-- Tentang Section -->
-    <section id="tentang" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Visi & Misi</h2>
-                <p class="text-slate-500 mt-2">Pilar pergerakan IRMA Ahlul Khoer</p>
+        <!-- CEK STATUS / LOG IN -->
+        <div id="sectionCek" class="card">
+            <h2>Cek Status / Masuk Anggota</h2>
+            <p class="sub">Masukkan Nomor WhatsApp yang terdaftar untuk membuka portal anggota.</p>
+            <form onsubmit="window.prosesCekStatus(event)">
+                <input type="tel" id="cekWa" placeholder="Contoh: 081234567890" required>
+                <button type="submit" class="btn-blue">Masuk ke Portal Anggota</button>
+            </form>
+            <div id="pesanCek"></div>
+        </div>
+
+        <!-- DASHBOARD ANGGOTA -->
+        <div id="sectionDashboard" style="display: none;">
+            
+            <div class="tab-menu">
+                <button class="tab-btn active" onclick="window.bukaTab('tabKegiatan', this)">📅 Kegiatan</button>
+                <button class="tab-btn" onclick="window.bukaTab('tabKeuangan', this)">💰 Kas</button>
+                <button class="tab-btn" onclick="window.bukaTab('tabPengurus', this)">👥 Pengurus</button>
+                <button class="tab-btn" onclick="window.bukaTab('tabGaleri', this)">🖼️ Galeri</button>
+                <button class="tab-btn" onclick="window.bukaTab('tabPeraturan', this)">📜 Peraturan</button>
+                <button class="tab-btn" onclick="window.bukaTab('tabChat', this)">💬 Obrolan</button>
+                <button class="tab-btn" onclick="window.bukaTab('tabProfil', this)">⚙️ Profil</button>
             </div>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center text-primary text-xl font-bold mb-4">
-                        <i class="fas fa-eye"></i>
+
+            <!-- TAB 1: KEGIATAN & ACARA -->
+            <div id="tabKegiatan" class="tab-content card">
+                <h2>📅 Kegiatan & Acara Mendatang</h2>
+                <p class="sub">Jadwal rutinitas dan statistik komunitas IRMA Ahlul Khoer.</p>
+
+                <div class="grid-3" style="margin-bottom: 16px;">
+                    <div class="stat-box">
+                        <span style="font-size: 11px; color: #64748b; font-weight: bold;">TOTAL ANGGOTA</span>
+                        <div class="stat-number" style="color: #0284c7;" id="dispJumlahAnggota">0 Orang</div>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Visi</h3>
-                    <p class="text-slate-600 leading-relaxed">
-                        Menjadi pusat kegiatan remaja muslim yang unggul dalam pembentukan karakter islami, berjiwa sosial tinggi, serta adaptif terhadap perkembangan zaman.
-                    </p>
-                </div>
-                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100">
-                    <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center text-primary text-xl font-bold mb-4">
-                        <i class="fas fa-bullseye"></i>
+                    <div class="stat-box" style="background: #f0fdf4; border-color: #86efac;">
+                        <span style="font-size: 11px; color: #166534; font-weight: bold;">STATUS SAYA</span>
+                        <div class="stat-number" style="color: #059669; font-size: 14px; margin-top: 6px;">Aktif</div>
                     </div>
-                    <h3 class="text-xl font-bold text-slate-900 mb-2">Misi</h3>
-                    <ul class="text-slate-600 list-disc list-inside space-y-1">
-                        <li>Menyelenggarakan kajian rutin keislaman bagi remaja.</li>
-                        <li>Mengadakan kegiatan sosial dan kepedulian masyarakat.</li>
-                        <li>Mengembangkan potensi bakat dan kewirausahaan pemuda.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Kegiatan & Info Terbaru -->
-    <section id="kegiatan" class="py-16 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Agenda & Informasi</h2>
-                <p class="text-slate-500 mt-2">Program kegiatan serta update kas masjid</p>
-            </div>
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Info Acara dari Admin -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <span class="bg-teal-100 text-primary text-xs font-semibold px-2.5 py-0.5 rounded">Agenda Utama</span>
-                    <h3 id="tampilJudulAcara" class="text-xl font-bold text-slate-900 mt-3">Memuat agenda...</h3>
-                    <p id="tampilJadwalAcara" class="text-slate-600 text-sm mt-2"><i class="far fa-clock mr-1"></i> -</p>
-                </div>
-                <!-- Info Kas dari Admin -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded">Keuangan Kas</span>
-                    <h3 class="text-lg font-bold text-slate-900 mt-3">Saldo Kas: <span id="tampilSaldo" class="text-primary">Rp 0</span></h3>
-                    <p class="text-slate-500 text-sm mt-1">Pengeluaran: <span id="tampilPengeluaran">Rp 0</span></p>
-                    <p id="tampilKetSaldo" class="text-slate-600 text-sm mt-3">-</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Galeri Section -->
-    <section id="galeri" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Galeri Kegiatan</h2>
-                <p class="text-slate-500 mt-2">Dokumentasi foto dan video aktivitas IRMA</p>
-            </div>
-            <div id="gridGaleri" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <div class="text-center col-span-full text-slate-400 py-8">Memuat galeri kegiatan...</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Formulir Pendaftaran -->
-    <section id="daftar" class="py-16 bg-slate-50">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
-                <div class="text-center mb-6">
-                    <h2 class="text-2xl font-bold text-slate-900">Formulir Pendaftaran Anggota</h2>
-                    <p class="text-slate-500 text-sm mt-1">Isi data di bawah ini untuk menjadi bagian dari IRMA Ahlul Khoer</p>
-                </div>
-                <form id="formPendaftaran" class="space-y-4" onsubmit="window.kirimPendaftaran(event)">
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap</label>
-                        <input type="text" id="nama" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
+                    <div class="stat-box">
+                        <span style="font-size: 11px; color: #64748b; font-weight: bold;">KOMUNITAS</span>
+                        <div class="stat-number" style="color: #0f172a; font-size: 14px; margin-top: 6px;">Ahlul Khoer</div>
                     </div>
-                    <div class="grid grid-cols-2 gap-4">
+                </div>
+
+                <div class="stat-box" style="background: #f0fdf4; border-color: #86efac; text-align: left;">
+                    <span style="font-size: 11px; color: #166534; font-weight: bold;">ACARA TERDEKAT</span>
+                    <div style="font-size: 16px; font-weight: bold; color: #0f172a; margin-top: 4px;" id="dispJudulAcara">-</div>
+                    <div style="font-size: 13px; color: #059669; margin-top: 2px;" id="dispJadwalAcara">-</div>
+                </div>
+            </div>
+
+            <!-- TAB 2: KEUANGAN -->
+            <div id="tabKeuangan" class="tab-content card" style="display: none;">
+                <h2>💰 Transparansi Kas Komunitas</h2>
+                <p class="sub">Laporan keuangan kas terkini IRMA Ahlul Khoer.</p>
+                
+                <div class="grid-2" style="margin-bottom: 12px;">
+                    <div class="stat-box">
+                        <span style="font-size: 12px; color: #64748b; font-weight: bold;">TOTAL SALDO</span>
+                        <div class="stat-number" style="color: #059669;" id="dispSaldo">Rp 0</div>
+                    </div>
+                    <div class="stat-box">
+                        <span style="font-size: 12px; color: #64748b; font-weight: bold;">PENGELUARAN</span>
+                        <div class="stat-number" style="color: #e11d48;" id="dispPengeluaran">Rp 0</div>
+                    </div>
+                </div>
+
+                <div class="stat-box" style="text-align: left; background: #f8fafc; border-color: #cbd5e1;">
+                    <span style="font-size: 11px; color: #64748b; font-weight: bold;">KETERANGAN / CATATAN KAS</span>
+                    <div style="font-size: 13px; color: #334155; margin-top: 4px; font-style: italic;" id="dispKetSaldo">- Tidak ada catatan tambahan -</div>
+                </div>
+            </div>
+
+            <!-- TAB 3: PENGURUS -->
+            <div id="tabPengurus" class="tab-content card" style="display: none;">
+                <h2>👥 Pengurus Komunitas</h2>
+                <p class="sub">Struktur kepengurusan IRMA Ahlul Khoer terkini:</p>
+                <div class="list-pengurus">
+                    <div class="item-pengurus">
                         <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Usia</label>
-                            <input type="number" id="usia" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">No. WhatsApp</label>
-                            <input type="tel" id="whatsapp" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
+                            <div class="jabatan-title">Pembina / Penasihat</div>
+                            <div class="nama-val" id="dispPembina">-</div>
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-medium text-slate-700 mb-1">Alamat</label>
-                        <textarea id="alamat" rows="3" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"></textarea>
+                    <div class="item-pengurus">
+                        <div>
+                            <div class="jabatan-title">Ketua IRMA</div>
+                            <div class="nama-val" id="dispKetua">-</div>
+                        </div>
                     </div>
-                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition">Kirim Pendaftaran</button>
+                    <div class="item-pengurus">
+                        <div>
+                            <div class="jabatan-title">Wakil Ketua</div>
+                            <div class="nama-val" id="dispWakil">-</div>
+                        </div>
+                    </div>
+                    <div class="item-pengurus">
+                        <div>
+                            <div class="jabatan-title">Sekretaris</div>
+                            <div class="nama-val" id="dispSekretaris">-</div>
+                        </div>
+                    </div>
+                    <div class="item-pengurus">
+                        <div>
+                            <div class="jabatan-title">Bendahara</div>
+                            <div class="nama-val" id="dispBendahara">-</div>
+                        </div>
+                    </div>
+                    <div class="item-pengurus">
+                        <div>
+                            <div class="jabatan-title">Humas / Acara</div>
+                            <div class="nama-val" id="dispHumas">-</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: GALERI FOTO & VIDEO -->
+            <div id="tabGaleri" class="tab-content card" style="display: none;">
+                <h2>🖼️ Galeri Foto & Video Kegiatan</h2>
+                <p class="sub">Dokumentasi kegiatan dan acara IRMA Ahlul Khoer.</p>
+                <div id="boxGaleri" class="galeri-grid">
+                    <div style="text-align: center; font-size: 12px; color: #94a3b8; padding: 20px;">Memuat galeri...</div>
+                </div>
+            </div>
+
+            <!-- TAB 5: PERATURAN -->
+            <div id="tabPeraturan" class="tab-content card" style="display: none;">
+                <h2>📜 Peraturan & Tata Tertib IRMA</h2>
+                <p class="sub">Pedoman keanggotaan dan etika organisasi IRMA Ahlul Khoer.</p>
+
+                <h3>BAB I: Ketentuan Umum</h3>
+                <ul class="aturan-list">
+                    <li>IRMA Ahlul Khoer adalah wadah pembinaan dan silaturahmi remaja/pemuda Masjid Ahlul Khoer.</li>
+                    <li>Setiap anggota wajib menjunjung tinggi nilai-nilai keislaman, akhlakul karimah, serta kebersamaan.</li>
+                </ul>
+
+                <h3>BAB II: Hak & Kewajiban Anggota</h3>
+                <ul class="aturan-list">
+                    <li><b>Hak:</b> Mengikuti seluruh kegiatan, menggunakan fasilitas portal digital/chat, dan memberikan masukan yang membangun.</li>
+                    <li><b>Kewajiban:</b> Menjaga nama baik masjid & organisasi, menjaga kebersihan lingkungan masjid, serta aktif dalam kegiatan IRMA.</li>
+                </ul>
+
+                <h3>BAB III: Etika Portal Digital</h3>
+                <ul class="aturan-list">
+                    <li>Dilarang menyebarkan hoaks, ujaran kebencian, SARA, atau konten tidak sopan di Ruang Obrolan.</li>
+                    <li>Gunakan bahasa yang santun, saling menghargai, serta gunakan nama asli dan nomor WA aktif.</li>
+                </ul>
+
+                <h3>BAB IV: Keuangan & Sanksi</h3>
+                <ul class="aturan-list">
+                    <li>Laporan kas terbuka transparan dan dapat dipantau bersama di Tab Kas.</li>
+                    <li>Pelanggaran tata tertib akan diberikan teguran kekeluargaan, hingga penonaktifan akun portal jika terbukti merugikan organisasi.</li>
+                </ul>
+            </div>
+
+            <!-- TAB 6: OBROLAN -->
+            <div id="tabChat" class="tab-content card" style="display: none;">
+                <h2>💬 Ruang Obrolan Anggota</h2>
+                <p class="sub">Diskusi & obrolan sesama anggota terdaftar secara realtime.</p>
+                
+                <div id="boxObrolan" class="chat-box">
+                    <div style="text-align: center; font-size: 12px; color: #94a3b8; margin: auto;">Memuat pesan...</div>
+                </div>
+
+                <form onsubmit="window.kirimPesanChat(event)" style="display: flex; gap: 8px;">
+                    <input type="text" id="inputPesanChat" placeholder="Ketik pesan di sini..." required style="margin: 0;">
+                    <button type="submit" class="btn-blue" style="width: auto; margin: 0; padding: 10px 18px;">Kirim</button>
                 </form>
-                <div id="pesanSukses" class="hidden mt-4 p-4 bg-emerald-100 text-emerald-800 rounded-lg text-center text-sm font-medium">
-                    Terima kasih! Pendaftaran berhasil dikirim. Pengurus akan segera menghubungi Anda.
-                </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-sm">&copy; 2026 IRMA AHLUL KHOER. All rights reserved.</p>
-        </div>
-    </footer>
+            <!-- TAB 7: PROFIL -->
+            <div id="tabProfil" class="tab-content card" style="display: none;">
+                <h2>⚙️ Profil Saya</h2>
+                <form onsubmit="window.simpanProfil(event)">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="profNama" required>
+                    <label>Usia</label>
+                    <input type="number" id="profUsia" required>
+                    <label>No. WhatsApp</label>
+                    <input type="tel" id="profWa" readonly style="background:#f1f5f9;">
+                    <label>Alamat</label>
+                    <textarea id="profAlamat" rows="2" required></textarea>
+                    <button type="submit" class="btn-primary">Simpan Profil</button>
+                </form>
+                <div id="pesanProfil"></div>
+                <button onclick="window.keluarPortal()" class="btn-danger" style="margin-top: 15px;">Keluar</button>
+            </div>
 
-    <!-- FIREBASE SCRIPT -->
+        </div>
+
+        <!-- FORMULIR PENDAFTARAN -->
+        <div id="sectionDaftar" class="card">
+            <h2>Pendaftaran Anggota Baru</h2>
+            <p class="sub">Silakan isi formulir jika Anda belum terdaftar.</p>
+            <form onsubmit="window.prosesPendaftaran(event)">
+                <label>Nama Lengkap</label>
+                <input type="text" id="regNama" placeholder="Nama sesuai identitas" required>
+                <label>Usia (Tahun)</label>
+                <input type="number" id="regUsia" placeholder="Contoh: 17" required>
+                <label>No. WhatsApp</label>
+                <input type="tel" id="regWa" placeholder="Contoh: 081234567890" required>
+                <label>Alamat Lengkap</label>
+                <textarea id="regAlamat" rows="2" placeholder="Alamat rumah / lingkungan RT/RW" required></textarea>
+                <button type="submit" class="btn-primary">Kirim Pendaftaran</button>
+            </form>
+            <div id="pesanDaftar"></div>
+        </div>
+
+    </div>
+
+    <!-- FIREBASE MODULE SCRIPT -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, set, get, push } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC-f7pwEuIQeRFyxLFN3tv9lyNB1487ST8",
@@ -197,66 +289,233 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Ambil Data Info & Kas
-        onValue(ref(db, 'irma_info'), (snapshot) => {
-            const data = snapshot.val() || {};
-            document.getElementById('tampilJudulAcara').textContent = data.judulAcara || 'Belum ada agenda';
-            document.getElementById('tampilJadwalAcara').innerHTML = `<i class="far fa-clock mr-1"></i> ${data.jadwalAcara || 'Menunggu jadwal'}`;
-            document.getElementById('tampilSaldo').textContent = 'Rp ' + Number(data.saldo || 0).toLocaleString('id-ID');
-            document.getElementById('tampilPengeluaran').textContent = 'Rp ' + Number(data.pengeluaran || 0).toLocaleString('id-ID');
-            document.getElementById('tampilKetSaldo').textContent = data.ketSaldo || '-';
+        const TELEGRAM_BOT_TOKEN = "8922142031:AAHz4w7FhWiLwvNsOArRfTVqSxKGw947DJg"; 
+        const TELEGRAM_CHAT_ID = "7751334348"; 
+
+        let waAktif = '';
+        let namaAktif = '';
+
+        // CEK SESI PERSISTEN ANGGOTA SAAT HALAMAN DIBUAT
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedWa = localStorage.getItem('irma_user_wa');
+            if (savedWa) {
+                verifikasiDanMasuk(savedWa, true);
+            }
         });
 
-        // Ambil Galeri Foto & Video
+        function kirimNotifTelegram(data) {
+            const pesan = `🔔 *PENDAFTAR BARU IRMA AHLUL KHOER*\n\n👤 *Nama:* ${data.nama}\n🔢 *Usia:* ${data.usia} Tahun\n📱 *No. WA:* ${data.whatsapp}\n📍 *Alamat:* ${data.alamat}\n\nSilakan buka halaman Admin untuk melakukan ACC!`;
+
+            fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: TELEGRAM_CHAT_ID,
+                    text: pesan,
+                    parse_mode: 'Markdown'
+                })
+            }).catch(err => console.log('Gagal kirim notif:', err));
+        }
+
+        // 1. PENGURUS
+        onValue(ref(db, 'irma_pengurus'), (snapshot) => {
+            const data = snapshot.val() || {};
+            document.getElementById('dispPembina').textContent = data.pembina || '- Belum diisi -';
+            document.getElementById('dispKetua').textContent = data.ketua || '- Belum diisi -';
+            document.getElementById('dispWakil').textContent = data.wakil || '- Belum diisi -';
+            document.getElementById('dispSekretaris').textContent = data.sekretaris || '- Belum diisi -';
+            document.getElementById('dispBendahara').textContent = data.bendahara || '- Belum diisi -';
+            document.getElementById('dispHumas').textContent = data.humas || '- Belum diisi -';
+        });
+
+        // 2. KAS & ACARA
+        onValue(ref(db, 'irma_info'), (snapshot) => {
+            const data = snapshot.val() || {};
+            document.getElementById('dispSaldo').textContent = data.saldo ? 'Rp ' + Number(data.saldo).toLocaleString('id-ID') : 'Rp 0';
+            document.getElementById('dispPengeluaran').textContent = data.pengeluaran ? 'Rp ' + Number(data.pengeluaran).toLocaleString('id-ID') : 'Rp 0';
+            document.getElementById('dispKetSaldo').textContent = data.ketSaldo || '- Tidak ada catatan tambahan -';
+            document.getElementById('dispJudulAcara').textContent = data.judulAcara || 'Belum ada acara';
+            document.getElementById('dispJadwalAcara').textContent = data.jadwalAcara || '-';
+        });
+
+        // 3. GALERI REALTIME
         onValue(ref(db, 'irma_galeri'), (snapshot) => {
             const data = snapshot.val();
-            const grid = document.getElementById('gridGaleri');
+            const box = document.getElementById('boxGaleri');
             if(!data) {
-                grid.innerHTML = '<div class="text-center col-span-full text-slate-400 py-8">Belum ada dokumentasi galeri.</div>';
+                box.innerHTML = '<div style="text-align: center; font-size: 12px; color: #94a3b8; padding: 20px;">Belum ada foto atau video di galeri.</div>';
                 return;
             }
-            grid.innerHTML = Object.entries(data).reverse().map(([id, val]) => {
+            const list = Object.values(data);
+            box.innerHTML = list.map(item => {
                 let mediaElement = '';
-                if(val.tipe === 'video' && val.url.includes('youtu')) {
-                    let videoId = '';
-                    if(val.url.includes('shorts/')) {
-                        videoId = val.url.split('shorts/')[1]?.split('?')[0];
-                    } else if(val.url.includes('v=')) {
-                        videoId = val.url.split('v=')[1]?.split('&')[0];
-                    } else if(val.url.includes('youtu.be/')) {
-                        videoId = val.url.split('youtu.be/')[1]?.split('?')[0];
+                if(item.tipe === 'video') {
+                    let embedUrl = item.url;
+                    if(embedUrl.includes('watch?v=')) {
+                        embedUrl = embedUrl.replace('watch?v=', 'embed/');
                     }
-                    mediaElement = videoId ? `<iframe class="w-full h-48 rounded-lg" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>` : `<a href="${val.url}" target="_blank" class="text-blue-600 underline">Tonton Video YouTube</a>`;
+                    mediaElement = `<iframe src="${embedUrl}" allowfullscreen></iframe>`;
                 } else {
-                    mediaElement = `<img src="${val.url}" alt="${val.judul}" class="w-full h-48 object-cover rounded-lg shadow-sm" onerror="this.src='https://via.placeholder.com/400x300?text=Gagal+Memuat+Foto'">`;
+                    mediaElement = `<img src="${item.url}" alt="${item.judul}">`;
                 }
                 return `
-                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                    <div class="galeri-item">
                         ${mediaElement}
-                        <h4 class="font-bold text-slate-900 mt-3 text-base">${val.judul}</h4>
+                        <div class="galeri-title">${item.judul}</div>
                     </div>
                 `;
             }).join('');
         });
 
-        // Kirim Pendaftaran
-        window.kirimPendaftaran = function(e) {
+        // 4. OBROLAN
+        onValue(ref(db, 'irma_chat'), (snapshot) => {
+            const data = snapshot.val();
+            const box = document.getElementById('boxObrolan');
+            if(!data) {
+                box.innerHTML = '<div style="text-align: center; font-size: 12px; color: #94a3b8; margin: auto;">Belum ada pesan. Mulai obrolan sekarang!</div>';
+                return;
+            }
+            const list = Object.values(data);
+            box.innerHTML = list.map(c => {
+                const isMe = c.wa === waAktif;
+                return `
+                    <div class="chat-item ${isMe ? 'me' : 'other'}">
+                        <div class="chat-sender">${isMe ? 'Saya' : c.nama}</div>
+                        <div>${c.pesan}</div>
+                        <div class="chat-time">${c.waktu || ''}</div>
+                    </div>
+                `;
+            }).join('');
+            box.scrollTop = box.scrollHeight;
+        });
+
+        window.kirimPesanChat = function(e) {
             e.preventDefault();
-            const wa = document.getElementById('whatsapp').value.trim();
-            const dataPendaftar = {
-                nama: document.getElementById('nama').value.trim(),
-                usia: document.getElementById('usia').value.trim(),
-                whatsapp: wa,
-                alamat: document.getElementById('alamat').value.trim(),
+            const input = document.getElementById('inputPesanChat');
+            const teks = input.value.trim();
+            if(!teks || !waAktif) return;
+
+            const jam = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            push(ref(db, 'irma_chat'), {
+                nama: namaAktif || 'Anggota',
+                wa: waAktif,
+                pesan: teks,
+                waktu: jam
+            }).then(() => {
+                input.value = '';
+            });
+        };
+
+        // 5. PENDAFTARAN
+        window.prosesPendaftaran = function(e) {
+            e.preventDefault();
+            const cleanWa = document.getElementById('regWa').value.trim().replace(/[^0-9]/g, '');
+            const dataBaru = {
+                nama: document.getElementById('regNama').value.trim(),
+                usia: document.getElementById('regUsia').value.trim(),
+                whatsapp: cleanWa,
+                alamat: document.getElementById('regAlamat').value.trim(),
                 status: 'Pending'
             };
 
-            set(ref(db, 'irma_pendaftar/' + wa.replace(/[^0-9]/g, '')), dataPendaftar).then(() => {
-                document.getElementById('formPendaftaran').reset();
-                document.getElementById('pesanSukses').classList.remove('hidden');
-                setTimeout(() => document.getElementById('pesanSukses').classList.add('hidden'), 5000);
+            const userRef = ref(db, 'irma_pendaftar/' + cleanWa);
+            get(userRef).then((snapshot) => {
+                if (snapshot.exists()) {
+                    tampilPesan('pesanDaftar', 'Nomor WA sudah terdaftar!', 'pesan-warning');
+                } else {
+                    set(userRef, dataBaru).then(() => {
+                        tampilPesan('pesanDaftar', 'Pendaftaran Berhasil! Menunggu konfirmasi Admin.', 'pesan-sukses');
+                        kirimNotifTelegram(dataBaru);
+                        e.target.reset();
+                    });
+                }
             });
         };
+
+        // 6. CEK STATUS / LOGIN ANGGOTA
+        window.prosesCekStatus = function(e) {
+            e.preventDefault();
+            const cleanWa = document.getElementById('cekWa').value.trim().replace(/[^0-9]/g, '');
+            verifikasiDanMasuk(cleanWa, false);
+        };
+
+        function verifikasiDanMasuk(cleanWa, isAutoSession) {
+            get(ref(db, 'irma_pendaftar/' + cleanWa)).then((snapshot) => {
+                if (!snapshot.exists()) {
+                    if (!isAutoSession) tampilPesan('pesanCek', 'Nomor WA belum terdaftar.', 'pesan-error');
+                    localStorage.removeItem('irma_user_wa');
+                    return;
+                }
+                const user = snapshot.val();
+                if (user.status === 'Pending') {
+                    if (!isAutoSession) tampilPesan('pesanCek', 'Status Pendaftaran Anda masih PENDING.', 'pesan-warning');
+                    localStorage.removeItem('irma_user_wa');
+                } else if (user.status === 'Diterima') {
+                    waAktif = cleanWa;
+                    namaAktif = user.nama || 'Anggota';
+                    localStorage.setItem('irma_user_wa', cleanWa); // SIMPAN SESI ANGGOTA
+
+                    document.getElementById('profNama').value = user.nama || '';
+                    document.getElementById('profUsia').value = user.usia || '';
+                    document.getElementById('profWa').value = user.whatsapp || '';
+                    document.getElementById('profAlamat').value = user.alamat || '';
+
+                    document.getElementById('sectionCek').style.display = 'none';
+                    document.getElementById('sectionDaftar').style.display = 'none';
+                    document.getElementById('sectionDashboard').style.display = 'block';
+
+                    hitungTotalAnggota();
+                }
+            });
+        }
+
+        window.simpanProfil = function(e) {
+            e.preventDefault();
+            if(!waAktif) return;
+            const newNama = document.getElementById('profNama').value.trim();
+            set(ref(db, 'irma_pendaftar/' + waAktif), {
+                nama: newNama,
+                usia: document.getElementById('profUsia').value.trim(),
+                whatsapp: waAktif,
+                alamat: document.getElementById('profAlamat').value.trim(),
+                status: 'Diterima'
+            }).then(() => {
+                namaAktif = newNama;
+                tampilPesan('pesanProfil', 'Profil diperbarui!', 'pesan-sukses');
+            });
+        };
+
+        window.keluarPortal = function() {
+            localStorage.removeItem('irma_user_wa'); // HAPUS SESI ANGGOTA
+            waAktif = '';
+            namaAktif = '';
+            document.getElementById('sectionDashboard').style.display = 'none';
+            document.getElementById('sectionCek').style.display = 'block';
+            document.getElementById('sectionDaftar').style.display = 'block';
+        };
+
+        function hitungTotalAnggota() {
+            onValue(ref(db, 'irma_pendaftar'), (snapshot) => {
+                const data = snapshot.val() || {};
+                const list = Object.values(data);
+                const diterima = list.filter(x => x.status === 'Diterima').length;
+                document.getElementById('dispJumlahAnggota').textContent = diterima + ' Orang';
+            });
+        }
+
+        window.bukaTab = function(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(id).style.display = 'block';
+            btn.classList.add('active');
+        };
+
+        function tampilPesan(id, teks, tipe) {
+            const el = document.getElementById(id);
+            el.className = 'pesan ' + tipe;
+            el.textContent = teks;
+            el.style.display = 'block';
+        }
     </script>
 </body>
 </html>

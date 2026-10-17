@@ -122,17 +122,17 @@
             <!-- TAB 4: KELOLA GALERI -->
             <div id="tabKelolaGaleri" class="tab-content card" style="display: none;">
                 <h2>Kelola Galeri Foto & Video</h2>
-                <p class="sub">Tambahkan dokumentasi kegiatan (Gunakan Direct Link Google Drive untuk foto).</p>
+                <p class="sub">Tambahkan dokumentasi (Cukup paste link Google Drive biasa, sistem otomatis menyesuaikan).</p>
                 <form onsubmit="window.tambahGaleri(event)">
                     <label>Judul Dokumentasi</label>
                     <input type="text" id="galJudul" placeholder="Contoh: Kajian Rutin Malam Minggu" required>
                     <label>Tipe Media</label>
                     <select id="galTipe">
-                        <option value="foto">📷 Foto (URL / Link Gambar)</option>
+                        <option value="foto">📷 Foto (Paste Link Google Drive)</option>
                         <option value="video">🎥 Video (URL YouTube)</option>
                     </select>
                     <label>URL / Link Media</label>
-                    <input type="text" id="galUrl" placeholder="Contoh Foto: https://lh3.googleusercontent.com/d/xxx | Video: https://www.youtube.com/watch?v=xxx" required>
+                    <input type="text" id="galUrl" placeholder="Tempel link Google Drive di sini..." required>
                     <button type="submit" class="btn-primary">Unggah ke Galeri</button>
                 </form>
                 <div id="pesanGaleri" class="pesan"></div>
@@ -311,10 +311,21 @@
 
         window.tambahGaleri = function(e) {
             e.preventDefault();
+            let urlInput = document.getElementById('galUrl').value.trim();
+            const tipe = document.getElementById('galTipe').value;
+
+            // OTOMATIS KONVERSI LINK GOOGLE DRIVE KE FORMAT DIRECT LINK
+            if (tipe === 'foto' && urlInput.includes('drive.google.com')) {
+                const match = urlInput.match(/\/d\/([^\/\?]+)/);
+                if (match && match[1]) {
+                    urlInput = 'https://lh3.googleusercontent.com/d/' + match[1];
+                }
+            }
+
             const dataBaru = {
                 judul: document.getElementById('galJudul').value.trim(),
-                tipe: document.getElementById('galTipe').value,
-                url: document.getElementById('galUrl').value.trim()
+                tipe: tipe,
+                url: urlInput
             };
 
             push(ref(db, 'irma_galeri'), dataBaru).then(() => {
@@ -330,7 +341,7 @@
             }
         };
 
-        window.bukaTabAdmin = function(id, btn) {
+        window.bukaTabAdmin, window.bukaTabAdmin = function(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).style.display = 'block';

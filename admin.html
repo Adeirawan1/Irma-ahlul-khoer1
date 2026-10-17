@@ -191,13 +191,23 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // PASSWORD ADMIN (Sama dengan versi sebelumnya)
         const PASS_ADMIN = "adminirma";
+
+        // CEK SESI LOGIN SAAT HALAMAN DIBUKA
+        window.addEventListener('DOMContentLoaded', () => {
+            const isLogged = localStorage.getItem('irma_admin_session');
+            if (isLogged === 'true') {
+                document.getElementById('sectionLogin').style.display = 'none';
+                document.getElementById('sectionAdminDashboard').style.display = 'block';
+                muatSemuaDataAdmin();
+            }
+        });
 
         window.prosesLoginAdmin = function(e) {
             e.preventDefault();
             const pass = document.getElementById('passAdmin').value;
             if(pass === PASS_ADMIN) {
+                localStorage.setItem('irma_admin_session', 'true'); // SIMPAN SESI
                 document.getElementById('sectionLogin').style.display = 'none';
                 document.getElementById('sectionAdminDashboard').style.display = 'block';
                 muatSemuaDataAdmin();
@@ -278,7 +288,6 @@
             });
         }
 
-        // AKSI MEMBER: ACC & HAPUS
         window.accMember = function(key) {
             set(ref(db, `irma_pendaftar/${key}/status`), 'Diterima');
         };
@@ -289,7 +298,6 @@
             }
         };
 
-        // SIMPAN TAMBAH GALERI
         window.tambahGaleri = function(e) {
             e.preventDefault();
             const judul = document.getElementById('galJudul').value.trim();
@@ -308,14 +316,12 @@
             });
         };
 
-        // HAPUS ITEM GALERI
         window.hapusGaleri = function(key) {
             if(confirm('Yakin ingin menghapus media ini dari galeri?')) {
                 remove(ref(db, `irma_galeri/${key}`));
             }
         };
 
-        // SIMPAN INFO & KAS
         window.simpanInfo = function(e) {
             e.preventDefault();
             set(ref(db, 'irma_info'), {
@@ -329,7 +335,6 @@
             });
         };
 
-        // SIMPAN PENGURUS
         window.simpanPengurus = function(e) {
             e.preventDefault();
             set(ref(db, 'irma_pengurus'), {
@@ -345,6 +350,7 @@
         };
 
         window.keluarAdmin = function() {
+            localStorage.removeItem('irma_admin_session'); // HAPUS SESI
             document.getElementById('sectionAdminDashboard').style.display = 'none';
             document.getElementById('sectionLogin').style.display = 'block';
             document.getElementById('passAdmin').value = '';

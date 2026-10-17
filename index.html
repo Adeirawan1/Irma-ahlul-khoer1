@@ -98,45 +98,53 @@
         </div>
     </section>
 
-    <!-- Kegiatan Section -->
+    <!-- Kegiatan & Info Terbaru -->
     <section id="kegiatan" class="py-16 bg-slate-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-slate-900">Agenda & Kegiatan</h2>
-                <p class="text-slate-500 mt-2">Mari bergabung dalam setiap program positif kami</p>
+                <h2 class="text-3xl font-bold text-slate-900">Agenda & Informasi</h2>
+                <p class="text-slate-500 mt-2">Program kegiatan serta update kas masjid</p>
             </div>
-            <div class="grid md:grid-cols-3 gap-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Info Acara dari Admin -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <span class="bg-teal-100 text-primary text-xs font-semibold px-2.5 py-0.5 rounded">Rutin Pekanan</span>
-                    <h3 class="text-lg font-bold text-slate-900 mt-3">Kajian Remaja & Tahsin</h3>
-                    <p class="text-slate-500 text-sm mt-2"><i class="far fa-clock mr-1"></i> Setiap Sabtu Malam (Ba'da Isya)</p>
-                    <p class="text-slate-600 text-sm mt-3">Pembahasan fiqih praktis, akhlak, serta perbaikan bacaan Al-Qur'an.</p>
+                    <span class="bg-teal-100 text-primary text-xs font-semibold px-2.5 py-0.5 rounded">Agenda Utama</span>
+                    <h3 id="tampilJudulAcara" class="text-xl font-bold text-slate-900 mt-3">Memuat agenda...</h3>
+                    <p id="tampilJadwalAcara" class="text-slate-600 text-sm mt-2"><i class="far fa-clock mr-1"></i> -</p>
                 </div>
+                <!-- Info Kas dari Admin -->
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-0.5 rounded">Bulanan</span>
-                    <h3 class="text-lg font-bold text-slate-900 mt-3">Aksi Bersih Masjid & Sosial</h3>
-                    <p class="text-slate-500 text-sm mt-2"><i class="far fa-clock mr-1"></i> Minggu Pertama</p>
-                    <p class="text-slate-600 text-sm mt-3">Gotong royong menjaga kebersihan lingkungan masjid dan santunan.</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded">Tahunan</span>
-                    <h3 class="text-lg font-bold text-slate-900 mt-3">Peringatan Hari Besar Islam</h3>
-                    <p class="text-slate-500 text-sm mt-2"><i class="far fa-clock mr-1"></i> Sesuai Kalender Hijriah</p>
-                    <p class="text-slate-600 text-sm mt-3">Panitia utama kegiatan PHBI, perlombaan, dan tablig akbar.</p>
+                    <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-0.5 rounded">Keuangan Kas</span>
+                    <h3 class="text-lg font-bold text-slate-900 mt-3">Saldo Kas: <span id="tampilSaldo" class="text-primary">Rp 0</span></h3>
+                    <p class="text-slate-500 text-sm mt-1">Pengeluaran: <span id="tampilPengeluaran">Rp 0</span></p>
+                    <p id="tampilKetSaldo" class="text-slate-600 text-sm mt-3">-</p>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Galeri Section -->
+    <section id="galeri" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-slate-900">Galeri Kegiatan</h2>
+                <p class="text-slate-500 mt-2">Dokumentasi foto dan video aktivitas IRMA</p>
+            </div>
+            <div id="gridGaleri" class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="text-center col-span-full text-slate-400 py-8">Memuat galeri kegiatan...</div>
+            </div>
+        </div>
+    </section>
+
     <!-- Formulir Pendaftaran -->
-    <section id="daftar" class="py-16 bg-white">
+    <section id="daftar" class="py-16 bg-slate-50">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-slate-50 p-8 rounded-2xl border border-slate-200">
+            <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm">
                 <div class="text-center mb-6">
                     <h2 class="text-2xl font-bold text-slate-900">Formulir Pendaftaran Anggota</h2>
                     <p class="text-slate-500 text-sm mt-1">Isi data di bawah ini untuk menjadi bagian dari IRMA Ahlul Khoer</p>
                 </div>
-                <form id="formPendaftaran" class="space-y-4">
+                <form id="formPendaftaran" class="space-y-4" onsubmit="window.kirimPendaftaran(event)">
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-1">Nama Lengkap</label>
                         <input type="text" id="nama" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none">
@@ -158,7 +166,7 @@
                     <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition">Kirim Pendaftaran</button>
                 </form>
                 <div id="pesanSukses" class="hidden mt-4 p-4 bg-emerald-100 text-emerald-800 rounded-lg text-center text-sm font-medium">
-                    Terima kasih! Data Anda berhasil dikirim. Pengurus akan menghubungi Anda segera.
+                    Terima kasih! Pendaftaran berhasil dikirim. Pengurus akan segera menghubungi Anda.
                 </div>
             </div>
         </div>
@@ -167,9 +175,88 @@
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-sm">&copy; 2024 IRMA AHLUL KHOER. All rights reserved.</p>
+            <p class="text-sm">&copy; 2026 IRMA AHLUL KHOER. All rights reserved.</p>
         </div>
     </footer>
 
+    <!-- FIREBASE SCRIPT -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC-f7pwEuIQeRFyxLFN3tv9lyNB1487ST8",
+            authDomain: "irmaahlulkhoer.firebaseapp.com",
+            databaseURL: "https://irmaahlulkhoer-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "irmaahlulkhoer",
+            storageBucket: "irmaahlulkhoer.firebasestorage.app",
+            messagingSenderId: "553080340311",
+            appId: "1:553080340311:web:ca9577f0e69609ff77c812"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        // Ambil Data Info & Kas
+        onValue(ref(db, 'irma_info'), (snapshot) => {
+            const data = snapshot.val() || {};
+            document.getElementById('tampilJudulAcara').textContent = data.judulAcara || 'Belum ada agenda';
+            document.getElementById('tampilJadwalAcara').innerHTML = `<i class="far fa-clock mr-1"></i> ${data.jadwalAcara || 'Menunggu jadwal'}`;
+            document.getElementById('tampilSaldo').textContent = 'Rp ' + Number(data.saldo || 0).toLocaleString('id-ID');
+            document.getElementById('tampilPengeluaran').textContent = 'Rp ' + Number(data.pengeluaran || 0).toLocaleString('id-ID');
+            document.getElementById('tampilKetSaldo').textContent = data.ketSaldo || '-';
+        });
+
+        // Ambil Galeri Foto & Video
+        onValue(ref(db, 'irma_galeri'), (snapshot) => {
+            const data = snapshot.val();
+            const grid = document.getElementById('gridGaleri');
+            if(!data) {
+                grid.innerHTML = '<div class="text-center col-span-full text-slate-400 py-8">Belum ada dokumentasi galeri.</div>';
+                return;
+            }
+            grid.innerHTML = Object.entries(data).reverse().map(([id, val]) => {
+                let mediaElement = '';
+                if(val.tipe === 'video' && val.url.includes('youtu')) {
+                    let videoId = '';
+                    if(val.url.includes('shorts/')) {
+                        videoId = val.url.split('shorts/')[1]?.split('?')[0];
+                    } else if(val.url.includes('v=')) {
+                        videoId = val.url.split('v=')[1]?.split('&')[0];
+                    } else if(val.url.includes('youtu.be/')) {
+                        videoId = val.url.split('youtu.be/')[1]?.split('?')[0];
+                    }
+                    mediaElement = videoId ? `<iframe class="w-full h-48 rounded-lg" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen></iframe>` : `<a href="${val.url}" target="_blank" class="text-blue-600 underline">Tonton Video YouTube</a>`;
+                } else {
+                    mediaElement = `<img src="${val.url}" alt="${val.judul}" class="w-full h-48 object-cover rounded-lg shadow-sm" onerror="this.src='https://via.placeholder.com/400x300?text=Gagal+Memuat+Foto'">`;
+                }
+                return `
+                    <div class="bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
+                        ${mediaElement}
+                        <h4 class="font-bold text-slate-900 mt-3 text-base">${val.judul}</h4>
+                    </div>
+                `;
+            }).join('');
+        });
+
+        // Kirim Pendaftaran
+        window.kirimPendaftaran = function(e) {
+            e.preventDefault();
+            const wa = document.getElementById('whatsapp').value.trim();
+            const dataPendaftar = {
+                nama: document.getElementById('nama').value.trim(),
+                usia: document.getElementById('usia').value.trim(),
+                whatsapp: wa,
+                alamat: document.getElementById('alamat').value.trim(),
+                status: 'Pending'
+            };
+
+            set(ref(db, 'irma_pendaftar/' + wa.replace(/[^0-9]/g, '')), dataPendaftar).then(() => {
+                document.getElementById('formPendaftaran').reset();
+                document.getElementById('pesanSukses').classList.remove('hidden');
+                setTimeout(() => document.getElementById('pesanSukses').classList.add('hidden'), 5000);
+            });
+        };
+    </script>
 </body>
 </html>

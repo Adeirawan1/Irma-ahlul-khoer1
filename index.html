@@ -295,6 +295,14 @@
         let waAktif = '';
         let namaAktif = '';
 
+        // CEK SESI PERSISTEN ANGGOTA SAAT HALAMAN DIBUAT
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedWa = localStorage.getItem('irma_user_wa');
+            if (savedWa) {
+                verifikasiDanMasuk(savedWa, true);
+            }
+        });
+
         function kirimNotifTelegram(data) {
             const pesan = `🔔 *PENDAFTAR BARU IRMA AHLUL KHOER*\n\n👤 *Nama:* ${data.nama}\n🔢 *Usia:* ${data.usia} Tahun\n📱 *No. WA:* ${data.whatsapp}\n📍 *Alamat:* ${data.alamat}\n\nSilakan buka halaman Admin untuk melakukan ACC!`;
 
@@ -342,7 +350,6 @@
             box.innerHTML = list.map(item => {
                 let mediaElement = '';
                 if(item.tipe === 'video') {
-                    // Mendukung link embed YouTube atau URL video langsung
                     let embedUrl = item.url;
                     if(embedUrl.includes('watch?v=')) {
                         embedUrl = embedUrl.replace('watch?v=', 'embed/');
@@ -425,22 +432,29 @@
             });
         };
 
-        // 6. CEK STATUS / LOGIN
+        // 6. CEK STATUS / LOGIN ANGGOTA
         window.prosesCekStatus = function(e) {
             e.preventDefault();
             const cleanWa = document.getElementById('cekWa').value.trim().replace(/[^0-9]/g, '');
+            verifikasiDanMasuk(cleanWa, false);
+        };
 
+        function verifikasiDanMasuk(cleanWa, isAutoSession) {
             get(ref(db, 'irma_pendaftar/' + cleanWa)).then((snapshot) => {
                 if (!snapshot.exists()) {
-                    tampilPesan('pesanCek', 'Nomor WA belum terdaftar.', 'pesan-error');
+                    if (!isAutoSession) tampilPesan('pesanCek', 'Nomor WA belum terdaftar.', 'pesan-error');
+                    localStorage.removeItem('irma_user_wa');
                     return;
                 }
                 const user = snapshot.val();
                 if (user.status === 'Pending') {
-                    tampilPesan('pesanCek', 'Status Pendaftaran Anda masih PENDING.', 'pesan-warning');
+                    if (!isAutoSession) tampilPesan('pesanCek', 'Status Pendaftaran Anda masih PENDING.', 'pesan-warning');
+                    localStorage.removeItem('irma_user_wa');
                 } else if (user.status === 'Diterima') {
                     waAktif = cleanWa;
                     namaAktif = user.nama || 'Anggota';
+                    localStorage.setItem('irma_user_wa', cleanWa); // SIMPAN SESI ANGGOTA
+
                     document.getElementById('profNama').value = user.nama || '';
                     document.getElementById('profUsia').value = user.usia || '';
                     document.getElementById('profWa').value = user.whatsapp || '';
@@ -453,7 +467,7 @@
                     hitungTotalAnggota();
                 }
             });
-        };
+        }
 
         window.simpanProfil = function(e) {
             e.preventDefault();
@@ -472,6 +486,7 @@
         };
 
         window.keluarPortal = function() {
+            localStorage.removeItem('irma_user_wa'); // HAPUS SESI ANGGOTA
             waAktif = '';
             namaAktif = '';
             document.getElementById('sectionDashboard').style.display = 'none';

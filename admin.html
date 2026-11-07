@@ -98,26 +98,34 @@
             </div>
 
             <!-- TAB 3: KAS & ACARA -->
-            <div id="tabKelolaKasAcara" class="tab-content card" style="display: none;">
-                <h2>Keuangan & Informasi Acara</h2>
-                <p class="sub">Perbarui data saldo kas, pengeluaran, serta jadwal kegiatan.</p>
-                <form onsubmit="window.simpanKasAcara(event)">
-                    <label>Total Saldo Kas (Rp)</label>
-                    <input type="number" id="inpSaldo" required>
-                    <label>Total Pengeluaran Kas (Rp)</label>
-                    <input type="number" id="inpPengeluaran" required>
-                    <label>Catatan / Keterangan Kas</label>
-                    <input type="text" id="inpKetSaldo" placeholder="Contoh: Iuran bulan Oktober">
-                    
-                    <label style="margin-top: 20px;">Judul Acara Terdekat</label>
-                    <input type="text" id="inpJudulAcara" required>
-                    <label>Jadwal & Waktu Acara</label>
-                    <input type="text" id="inpJadwalAcara" placeholder="Hari, tanggal, jam & tempat" required>
-                    
-                    <button type="submit" class="btn-primary">Simpan Info Kas & Acara</button>
-                </form>
-                <div id="pesanKasAcara" class="pesan"></div>
-            </div>
+<div id="tabKelolaKasAcara" class="tab-content card" style="display: none;">
+    <h2>Keuangan & Informasi Acara</h2>
+    <p class="sub">Perbarui data saldo kas, pengeluaran, serta jadwal kegiatan.</p>
+    <form onsubmit="window.simpanKasAcara(event)">
+        <label>Total Saldo Kas (Rp)</label>
+        <input type="number" id="inpSaldo" required>
+        
+        <label>Total Pengeluaran Kas (Rp)</label>
+        <input type="number" id="inpPengeluaran" required>
+        
+        <!-- BAGIAN INI YANG DIUBAH DARI INPUT KE TEXTAREA -->
+        <label>Catatan / Keterangan Kas</label>
+        <textarea id="inpKetSaldo" rows="6" placeholder="Contoh:
+Al Ikhlas: 304.000
+Al Bahar: 316.000
+Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" required></textarea>
+        
+        <label style="margin-top: 20px;">Judul Acara Terdekat</label>
+        <input type="text" id="inpJudulAcara" required>
+        
+        <label>Jadwal & Waktu Acara</label>
+        <input type="text" id="inpJadwalAcara" placeholder="Hari, tanggal, jam & tempat" required>
+        
+        <!-- Tambahkan tombol simpan jika belum ada -->
+        <button type="submit" class="mt-4 w-full bg-teal-600 text-white py-2 rounded-lg font-bold">Simpan Perubahan</button>
+    </form>
+</div>
+
 
             <!-- TAB 4: KELOLA GALERI -->
             <div id="tabKelolaGaleri" class="tab-content card" style="display: none;">

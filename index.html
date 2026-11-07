@@ -36,10 +36,12 @@
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .stat-box { padding: 16px; border-radius: 8px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; }
         .stat-number { font-size: 18px; font-weight: bold; margin-top: 4px; }
-        .list-pengurus { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        .item-pengurus { padding: 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
-        .jabatan-title { font-size: 12px; font-weight: bold; color: #0284c7; text-transform: uppercase; }
-        .nama-val { font-size: 15px; font-weight: bold; color: #0f172a; }
+        
+        /* Kotak Pengurus yang Seragam & Rapi */
+        .list-pengurus { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 10px; }
+        .item-pengurus { padding: 14px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; text-align: left; }
+        .jabatan-title { font-size: 11px; font-weight: bold; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .nama-val { font-size: 14px; font-weight: bold; color: #334155; white-space: pre-line; line-height: 1.5; }
         
         .chat-box { height: 320px; overflow-y: auto; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
         .chat-item { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; }
@@ -132,53 +134,41 @@
                     </div>
                 </div>
 
-                <!-- KETERANGAN / CATATAN KAS (ID dispKetSaldo + white-space pre-line agar enter berbaris ke bawah) -->
+                <!-- KETERANGAN / CATATAN KAS -->
                 <div class="stat-box" style="text-align: left; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-top: 12px;">
                     <span style="font-size: 11px; color: #64748b; font-weight: bold; display: block; margin-bottom: 6px;">KETERANGAN / CATATAN KAS</span>
                     <div id="dispKetSaldo" style="font-size: 13px; color: #334155; white-space: pre-line; line-height: 1.6;">- Tidak ada catatan tambahan -</div>
                 </div>
             </div>
 
-            <!-- TAB 3: PENGURUS -->
+            <!-- TAB 3: PENGURUS (Tampilan Kotak Seragam) -->
             <div id="tabPengurus" class="tab-content card" style="display: none;">
                 <h2>👥 Pengurus Komunitas</h2>
                 <p class="sub">Struktur kepengurusan IRMA Ahlul Khoer terkini:</p>
                 <div class="list-pengurus">
                     <div class="item-pengurus">
-                        <div>
-                            <div class="jabatan-title">Pembina / Penasihat</div>
-                            <div class="nama-val" id="dispPembina">-</div>
-                        </div>
+                        <span class="jabatan-title">Pembina / Penasihat</span>
+                        <div class="nama-val" id="dispPembina">-</div>
                     </div>
                     <div class="item-pengurus">
-                        <div>
-                            <div class="jabatan-title">Ketua IRMA</div>
-                            <div class="nama-val" id="dispKetua">-</div>
-                        </div>
+                        <span class="jabatan-title">Ketua IRMA</span>
+                        <div class="nama-val" id="dispKetua">-</div>
                     </div>
                     <div class="item-pengurus">
-                        <div>
-                            <div class="jabatan-title">Wakil Ketua</div>
-                            <div class="nama-val" id="dispWakil">-</div>
-                        </div>
+                        <span class="jabatan-title">Wakil Ketua</span>
+                        <div class="nama-val" id="dispWakil">-</div>
                     </div>
                     <div class="item-pengurus">
-                        <div>
-                            <div class="jabatan-title">Sekretaris</div>
-                            <div class="nama-val" id="dispSekretaris">-</div>
-                        </div>
+                        <span class="jabatan-title">Sekretaris</span>
+                        <div class="nama-val" id="dispSekretaris">-</div>
                     </div>
                     <div class="item-pengurus">
-                        <div>
-                            <div class="jabatan-title">Bendahara</div>
-                            <div class="nama-val" id="dispBendahara">-</div>
-                        </div>
+                        <span class="jabatan-title">Bendahara</span>
+                        <div class="nama-val" id="dispBendahara">-</div>
                     </div>
                     <div class="item-pengurus">
-                        <div>
-                            <div class="jabatan-title">Humas / Acara</div>
-                            <div class="nama-val" id="dispHumas">-</div>
-                        </div>
+                        <span class="jabatan-title">Humas / Acara</span>
+                        <div class="nama-val" id="dispHumas">-</div>
                     </div>
                 </div>
             </div>
@@ -333,7 +323,7 @@
             document.getElementById('dispHumas').textContent = data.humas || '- Belum diisi -';
         });
 
-        // 2. KAS & ACARA (Sinkronisasi ID dispKetSaldo, dispJudulAcara, dispJadwalAcara)
+        // 2. KAS & ACARA
         onValue(ref(db, 'irma_info'), (snapshot) => {
             const data = snapshot.val() || {};
             document.getElementById('dispSaldo').textContent = data.saldo ? 'Rp ' + Number(data.saldo).toLocaleString('id-ID') : 'Rp 0';

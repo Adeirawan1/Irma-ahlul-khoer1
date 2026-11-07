@@ -19,7 +19,6 @@
         .btn-primary { background-color: #0d9488; }
         .btn-blue { background-color: #0284c7; }
         .btn-danger { background-color: #ef4444; }
-        .btn-warning { background-color: #f59e0b; color: white; }
         .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 6px; display: none; }
         .pesan-sukses { background: #d1fae5; color: #065f46; display: block; }
         .pesan-error { background: #ffe4e6; color: #9f1239; display: block; }
@@ -97,35 +96,34 @@
                 <div id="pesanPengurus" class="pesan"></div>
             </div>
 
-           <!-- TAB 3: KAS & ACARA -->
-<div id="tabKelolaKasAcara" class="tab-content card" style="display: none;">
-    <h2>Keuangan & Informasi Acara</h2>
-    <p class="sub">Perbarui data saldo kas, pengeluaran, serta jadwal kegiatan.</p>
-    <form onsubmit="window.simpanKasAcara(event)">
-        <label>Total Saldo Kas (Rp)</label>
-        <input type="number" id="inpSaldo" required> 
-        
-        <label>Total Pengeluaran Kas (Rp)</label>
-        <input type="number" id="inpPengeluaran" required>
-        
-        <!-- BAGIAN INI YANG DIUBAH DARI INPUT KE TEXTAREA -->
-        <label>Catatan / Keterangan Kas</label>
-        <textarea id="inpKetSaldo" rows="6" placeholder="Contoh:
+            <!-- TAB 3: KAS & ACARA -->
+            <div id="tabKelolaKasAcara" class="tab-content card" style="display: none;">
+                <h2>Keuangan & Informasi Acara</h2>
+                <p class="sub">Perbarui data saldo kas, pengeluaran, serta jadwal kegiatan.</p>
+                <form onsubmit="window.simpanKasAcara(event)">
+                    <label>Total Saldo Kas (Rp)</label>
+                    <input type="number" id="inpSaldo" required> 
+                    
+                    <label>Total Pengeluaran Kas (Rp)</label>
+                    <input type="number" id="inpPengeluaran" required>
+                    
+                    <label>Catatan / Keterangan Kas</label>
+                    <textarea id="inpKetSaldo" rows="6" placeholder="Contoh:
 Al Ikhlas: 304.000
 Al Bahar: 316.000
 Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none" required></textarea>
-        
-        <label style="margin-top: 20px;">Judul Acara Terdekat</label>
-        <input type="text" id="inpJudulAcara" required>
-        
-        <label>Jadwal & Waktu Acara</label>
-        <input type="text" id="inpJadwalAcara" placeholder="Hari, tanggal, jam & tempat" required>
-        
-        <!-- Tambahkan tombol simpan jika belum ada -->
-        <button type="submit" class="mt-4 w-full bg-teal-600 text-white py-2 rounded-lg font-bold">Simpan Perubahan</button>
-    </form>
-</div>
-
+                    
+                    <label style="margin-top: 20px;">Judul Acara Terdekat</label>
+                    <input type="text" id="inpJudulAcara" required>
+                    
+                    <label>Jadwal & Waktu Acara</label>
+                    <input type="text" id="inpJadwalAcara" placeholder="Hari, tanggal, jam & tempat" required>
+                    
+                    <button type="submit" class="btn-primary" style="margin-top: 20px; cursor: pointer;">Simpan Perubahan</button>
+                </form>
+                <!-- Elemen Pesan Sukses/Error Kas & Acara agar tombol tidak macet -->
+                <div id="pesanKasAcara" class="pesan"></div>
+            </div>
 
             <!-- TAB 4: KELOLA GALERI -->
             <div id="tabKelolaGaleri" class="tab-content card" style="display: none;">
@@ -173,9 +171,8 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        const PIN_RAHASIA = "123456"; // Ganti PIN admin jika diinginkan
+        const PIN_RAHASIA = "123456";
 
-        // CEK SESI PERSISTEN ADMIN SAAT HALAMAN DIBUAT
         window.addEventListener('DOMContentLoaded', () => {
             const savedAdmin = localStorage.getItem('irma_admin_auth');
             if (savedAdmin === 'true') {
@@ -187,7 +184,7 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
             e.preventDefault();
             const pin = document.getElementById('pinAdmin').value.trim();
             if(pin === PIN_RAHASIA) {
-                localStorage.setItem('irma_admin_auth', 'true'); // SIMPAN SESI ADMIN
+                localStorage.setItem('irma_admin_auth', 'true');
                 bukaDashboardAdmin();
             } else {
                 tampilPesan('pesanLogin', 'PIN Admin salah!', 'pesan-error');
@@ -201,14 +198,13 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
         }
 
         window.keluarAdmin = function() {
-            localStorage.removeItem('irma_admin_auth'); // HAPUS SESI ADMIN
+            localStorage.removeItem('irma_admin_auth');
             document.getElementById('sectionDashboardAdmin').style.display = 'none';
             document.getElementById('sectionLoginAdmin').style.display = 'block';
             document.getElementById('pinAdmin').value = '';
         };
 
         function muatDataAdmin() {
-            // 1. Pendaftar
             onValue(ref(db, 'irma_pendaftar'), (snapshot) => {
                 const data = snapshot.val();
                 const box = document.getElementById('boxDaftarAdmin');
@@ -232,7 +228,6 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
                 `).join('');
             });
 
-            // 2. Form Pengurus
             onValue(ref(db, 'irma_pengurus'), (snapshot) => {
                 const data = snapshot.val() || {};
                 document.getElementById('inpPembina').value = data.pembina || '';
@@ -243,7 +238,6 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
                 document.getElementById('inpHumas').value = data.humas || '';
             });
 
-            // 3. Form Kas & Acara
             onValue(ref(db, 'irma_info'), (snapshot) => {
                 const data = snapshot.val() || {};
                 document.getElementById('inpSaldo').value = data.saldo || '';
@@ -253,7 +247,6 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
                 document.getElementById('inpJadwalAcara').value = data.jadwalAcara || '';
             });
 
-            // 4. Daftar Galeri Admin
             onValue(ref(db, 'irma_galeri'), (snapshot) => {
                 const data = snapshot.val();
                 const box = document.getElementById('boxDaftarGaleri');
@@ -322,7 +315,6 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
             let urlInput = document.getElementById('galUrl').value.trim();
             const tipe = document.getElementById('galTipe').value;
 
-            // OTOMATIS KONVERSI LINK GOOGLE DRIVE KE FORMAT DIRECT LINK
             if (tipe === 'foto' && urlInput.includes('drive.google.com')) {
                 const match = urlInput.match(/\/d\/([^\/\?]+)/);
                 if (match && match[1]) {
@@ -349,7 +341,7 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
             }
         };
 
-        window.bukaTabAdmin, window.bukaTabAdmin = function(id, btn) {
+        window.bukaTabAdmin = function(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(id).style.display = 'block';
@@ -358,8 +350,10 @@ Al Akrom: 42.000" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:r
 
         function tampilPesan(id, teks, tipe) {
             const el = document.getElementById(id);
-            el.className = 'pesan ' + tipe;
-            el.textContent = teks;
+            if(el) {
+                el.className = 'pesan ' + tipe;
+                el.textContent = teks;
+            }
         }
     </script>
 </body>

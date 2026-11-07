@@ -2,11 +2,11 @@
 <html lang="id">
 <head>
     <!-- DUKUNGAN APLIKASI (PWA) -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
-<link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1dYiVQR43RQIPFWqQZH2vbmBg3pQz9u2X">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1dYiVQR43RQIPFWqQZH2vbmBg3pQz9u2X">
 
- <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IRMA AHLUL KHOER - Portal Remaja Masjid</title>
     <style>
@@ -25,10 +25,10 @@
         .btn-primary { background-color: #0d9488; }
         .btn-blue { background-color: #0284c7; }
         .btn-danger { background-color: #ef4444; }
-        .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 6px; }
-        .pesan-sukses { background: #d1fae5; color: #065f46; }
-        .pesan-error { background: #ffe4e6; color: #9f1239; }
-        .pesan-warning { background: #fef3c7; color: #92400e; }
+        .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 6px; display: none; }
+        .pesan-sukses { background: #d1fae5; color: #065f46; display: block; }
+        .pesan-error { background: #ffe4e6; color: #9f1239; display: block; }
+        .pesan-warning { background: #fef3c7; color: #92400e; display: block; }
         .tab-menu { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
         .tab-btn { padding: 8px 14px; background: none; border: none; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 6px; white-space: nowrap; width: auto; margin: 0; }
         .tab-btn.active { background: #0f172a; color: white; }
@@ -73,7 +73,7 @@
                 <input type="tel" id="cekWa" placeholder="Contoh: 081234567890" required>
                 <button type="submit" class="btn-blue">Masuk ke Portal Anggota</button>
             </form>
-            <div id="pesanCek"></div>
+            <div id="pesanCek" class="pesan"></div>
         </div>
 
         <!-- DASHBOARD ANGGOTA -->
@@ -111,33 +111,33 @@
 
                 <div class="stat-box" style="background: #f0fdf4; border-color: #86efac; text-align: left;">
                     <span style="font-size: 11px; color: #166534; font-weight: bold;">ACARA TERDEKAT</span>
-                    <div style="font-size: 16px; font-weight: bold; color: #0f172a; margin-top: 4px;" id="dispJudulAcara">-</div>
+                    <div style="font-size: 16px; font-weight: bold; color: #0f172a; margin-top: 4px;" id="dispJudulAcara">Belum ada acara</div>
                     <div style="font-size: 13px; color: #059669; margin-top: 2px;" id="dispJadwalAcara">-</div>
                 </div>
             </div>
 
             <!-- TAB 2: KEUANGAN -->
-<div id="tabKeuangan" class="tab-content card" style="display: none;">
-    <h2>💰 Transparansi Kas Komunitas</h2>
-    <p class="sub">Laporan keuangan kas terkini IRMA Ahlul Khoer.</p>
-    
-    <div class="grid-2" style="margin-bottom: 12px;">
-        <div class="stat-box">
-            <span style="font-size: 12px; color: #64748b; font-weight: bold;">TOTAL SALDO</span>
-            <div class="stat-number" style="color: #059669;" id="dispSaldo">Rp 0</div>
-        </div>
-        <div class="stat-box">
-            <span style="font-size: 12px; color: #64748b; font-weight: bold;">PENGELUARAN</span>
-            <div class="stat-number" style="color: #dc2626;" id="dispPengeluaran">Rp 0</div>
-        </div>
-    </div>
+            <div id="tabKeuangan" class="tab-content card" style="display: none;">
+                <h2>💰 Transparansi Kas Komunitas</h2>
+                <p class="sub">Laporan keuangan kas terkini IRMA Ahlul Khoer.</p>
+                
+                <div class="grid-2" style="margin-bottom: 12px;">
+                    <div class="stat-box">
+                        <span style="font-size: 12px; color: #64748b; font-weight: bold;">TOTAL SALDO</span>
+                        <div class="stat-number" style="color: #059669;" id="dispSaldo">Rp 0</div>
+                    </div>
+                    <div class="stat-box">
+                        <span style="font-size: 12px; color: #64748b; font-weight: bold;">PENGELUARAN</span>
+                        <div class="stat-number" style="color: #dc2626;" id="dispPengeluaran">Rp 0</div>
+                    </div>
+                </div>
 
-    <!-- KETERANGAN / CATATAN KAS -->
-    <div class="stat-box" style="text-align: left; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-top: 12px;">
-        <span style="font-size: 11px; color: #64748b; font-weight: bold; display: block; margin-bottom: 6px;">KETERANGAN / CATATAN KAS</span>
-        <div id="tampilKetSaldo" style="font-size: 13px; color: #334155; white-space: pre-line; line-height: 1.6;">- Tidak ada catatan tambahan -</div>
-    </div>
-</div>
+                <!-- KETERANGAN / CATATAN KAS (ID dispKetSaldo + white-space pre-line agar enter berbaris ke bawah) -->
+                <div class="stat-box" style="text-align: left; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; margin-top: 12px;">
+                    <span style="font-size: 11px; color: #64748b; font-weight: bold; display: block; margin-bottom: 6px;">KETERANGAN / CATATAN KAS</span>
+                    <div id="dispKetSaldo" style="font-size: 13px; color: #334155; white-space: pre-line; line-height: 1.6;">- Tidak ada catatan tambahan -</div>
+                </div>
+            </div>
 
             <!-- TAB 3: PENGURUS -->
             <div id="tabPengurus" class="tab-content card" style="display: none;">
@@ -251,7 +251,7 @@
                     <textarea id="profAlamat" rows="2" required></textarea>
                     <button type="submit" class="btn-primary">Simpan Profil</button>
                 </form>
-                <div id="pesanProfil"></div>
+                <div id="pesanProfil" class="pesan"></div>
                 <button onclick="window.keluarPortal()" class="btn-danger" style="margin-top: 15px;">Keluar</button>
             </div>
 
@@ -272,7 +272,7 @@
                 <textarea id="regAlamat" rows="2" placeholder="Alamat rumah / lingkungan RT/RW" required></textarea>
                 <button type="submit" class="btn-primary">Kirim Pendaftaran</button>
             </form>
-            <div id="pesanDaftar"></div>
+            <div id="pesanDaftar" class="pesan"></div>
         </div>
 
     </div>
@@ -301,7 +301,6 @@
         let waAktif = '';
         let namaAktif = '';
 
-        // CEK SESI PERSISTEN ANGGOTA SAAT HALAMAN DIBUAT
         window.addEventListener('DOMContentLoaded', () => {
             const savedWa = localStorage.getItem('irma_user_wa');
             if (savedWa) {
@@ -334,7 +333,7 @@
             document.getElementById('dispHumas').textContent = data.humas || '- Belum diisi -';
         });
 
-        // 2. KAS & ACARA
+        // 2. KAS & ACARA (Sinkronisasi ID dispKetSaldo, dispJudulAcara, dispJadwalAcara)
         onValue(ref(db, 'irma_info'), (snapshot) => {
             const data = snapshot.val() || {};
             document.getElementById('dispSaldo').textContent = data.saldo ? 'Rp ' + Number(data.saldo).toLocaleString('id-ID') : 'Rp 0';
@@ -459,7 +458,7 @@
                 } else if (user.status === 'Diterima') {
                     waAktif = cleanWa;
                     namaAktif = user.nama || 'Anggota';
-                    localStorage.setItem('irma_user_wa', cleanWa); // SIMPAN SESI ANGGOTA
+                    localStorage.setItem('irma_user_wa', cleanWa);
 
                     document.getElementById('profNama').value = user.nama || '';
                     document.getElementById('profUsia').value = user.usia || '';
@@ -492,7 +491,7 @@
         };
 
         window.keluarPortal = function() {
-            localStorage.removeItem('irma_user_wa'); // HAPUS SESI ANGGOTA
+            localStorage.removeItem('irma_user_wa');
             waAktif = '';
             namaAktif = '';
             document.getElementById('sectionDashboard').style.display = 'none';
@@ -518,9 +517,11 @@
 
         function tampilPesan(id, teks, tipe) {
             const el = document.getElementById(id);
-            el.className = 'pesan ' + tipe;
-            el.textContent = teks;
-            el.style.display = 'block';
+            if(el) {
+                el.className = 'pesan ' + tipe;
+                el.textContent = teks;
+                el.style.display = 'block';
+            }
         }
     </script>
 </body>

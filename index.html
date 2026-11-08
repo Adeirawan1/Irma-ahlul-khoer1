@@ -11,39 +11,56 @@
     <title>IRMA AHLUL KHOER - Portal Remaja Masjid</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, sans-serif; }
-        body { background-color: #f1f5f9; color: #334155; padding-bottom: 50px; }
-        nav { background-color: #0f172a; color: white; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
+        
+        /* Background Gradasi Elegan */
+        body { 
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0d9488 100%);
+            background-attachment: fixed;
+            color: #334155; 
+            padding-bottom: 50px; 
+            min-height: 100vh;
+        }
+
+        nav { background-color: rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); color: white; padding: 15px 24px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
         .logo { font-weight: bold; font-size: 18px; color: #38bdf8; text-decoration: none; }
         .container { max-width: 800px; margin: 24px auto; padding: 0 16px; }
-        .card { background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 24px; border: 1px solid #e2e8f0; }
+
+        /* Efek Kartu dengan transparansi lembut */
+        .card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(8px); padding: 24px; border-radius: 16px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); margin-bottom: 24px; border: 1px solid rgba(255, 255, 255, 0.2); }
+        
         h2 { color: #0f172a; font-size: 20px; margin-bottom: 6px; }
         h3 { color: #0284c7; font-size: 15px; margin: 14px 0 6px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
         p.sub { color: #64748b; font-size: 13px; margin-bottom: 18px; }
         label { display: block; margin-top: 12px; font-weight: 600; font-size: 13px; color: #1e293b; }
-        input, textarea { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
-        button { width: 100%; padding: 12px; margin-top: 16px; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; }
+        input, textarea { width: 100%; padding: 10px; margin-top: 4px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; background: #fff; }
+        button { width: 100%; padding: 12px; margin-top: 16px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; color: white; font-size: 14px; transition: 0.2s; }
+        button:active { transform: scale(0.98); }
         .btn-primary { background-color: #0d9488; }
         .btn-blue { background-color: #0284c7; }
         .btn-danger { background-color: #ef4444; }
-        .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 6px; display: none; }
+        
+        .pesan { text-align: center; font-size: 13px; font-weight: bold; margin-top: 12px; padding: 10px; border-radius: 8px; display: none; }
         .pesan-sukses { background: #d1fae5; color: #065f46; display: block; }
         .pesan-error { background: #ffe4e6; color: #9f1239; display: block; }
         .pesan-warning { background: #fef3c7; color: #92400e; display: block; }
-        .tab-menu { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; border-bottom: 2px solid #e2e8f0; }
-        .tab-btn { padding: 8px 14px; background: none; border: none; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; border-radius: 6px; white-space: nowrap; width: auto; margin: 0; }
-        .tab-btn.active { background: #0f172a; color: white; }
+
+        /* Menu Tab Modern */
+        .tab-menu { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 16px; border-bottom: 2px solid rgba(255,255,255,0.2); }
+        .tab-btn { padding: 9px 16px; background: rgba(255, 255, 255, 0.2); border: none; font-size: 13px; font-weight: 600; color: #f8fafc; cursor: pointer; border-radius: 8px; white-space: nowrap; width: auto; margin: 0; backdrop-filter: blur(4px); }
+        .tab-btn.active { background: #38bdf8; color: #0f172a; box-shadow: 0 4px 12px rgba(56, 189, 248, 0.4); }
+
         .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .stat-box { padding: 16px; border-radius: 8px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; }
+        .stat-box { padding: 16px; border-radius: 10px; text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; }
         .stat-number { font-size: 18px; font-weight: bold; margin-top: 4px; }
         
-        /* Kotak Pengurus yang Seragam & Rapi */
+        /* Kotak Pengurus Rapi & Multi-line */
         .list-pengurus { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 10px; }
-        .item-pengurus { padding: 14px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; text-align: left; }
+        .item-pengurus { padding: 14px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; text-align: left; }
         .jabatan-title { font-size: 11px; font-weight: bold; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
         .nama-val { font-size: 14px; font-weight: bold; color: #334155; white-space: pre-line; line-height: 1.5; }
         
-        .chat-box { height: 320px; overflow-y: auto; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+        .chat-box { height: 320px; overflow-y: auto; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
         .chat-item { max-width: 80%; padding: 8px 12px; border-radius: 10px; font-size: 13px; line-height: 1.4; }
         .chat-item.me { align-self: flex-end; background: #0284c7; color: white; border-bottom-right-radius: 2px; }
         .chat-item.other { align-self: flex-start; background: #e2e8f0; color: #0f172a; border-bottom-left-radius: 2px; }
@@ -51,8 +68,8 @@
         .chat-time { font-size: 10px; opacity: 0.7; text-align: right; margin-top: 4px; }
 
         .galeri-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 12px; }
-        .galeri-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; padding: 12px; }
-        .galeri-item img, .galeri-item iframe { width: 100%; height: 200px; border-radius: 6px; object-fit: cover; border: none; }
+        .galeri-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; overflow: hidden; padding: 12px; }
+        .galeri-item img, .galeri-item iframe { width: 100%; height: 200px; border-radius: 8px; object-fit: cover; border: none; }
         .galeri-title { font-size: 14px; font-weight: bold; color: #0f172a; margin-top: 8px; }
 
         .aturan-list { font-size: 13px; line-height: 1.6; color: #334155; padding-left: 18px; margin-top: 6px; }
@@ -141,7 +158,7 @@
                 </div>
             </div>
 
-            <!-- TAB 3: PENGURUS (Tampilan Kotak Seragam) -->
+            <!-- TAB 3: PENGURUS -->
             <div id="tabPengurus" class="tab-content card" style="display: none;">
                 <h2>👥 Pengurus Komunitas</h2>
                 <p class="sub">Struktur kepengurusan IRMA Ahlul Khoer terkini:</p>
